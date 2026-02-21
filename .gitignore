@@ -1,4 +1,5 @@
 node_modules/
+src/aura.min.js
 .DS_Store
 *.log
 .env

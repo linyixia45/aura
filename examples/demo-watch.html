@@ -43,10 +43,6 @@
           log.value += `watch: ${oldVal ?? '-'} -> ${newVal}\n`;
         }, { immediate: true });
 
-        watchEffect(() => {
-          log.value += `watchEffect: count = ${count.value}\n`;
-        });
-
         return {
           count,
           log,

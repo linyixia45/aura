@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "description": "Vue-like reactive JS framework with anti-AI-slop design. No purple gradients, no Inter font. Zero build, <5KB.",
   "main": "src/aura.js",
+  "scripts": {
+    "build": "npx terser src/aura.js -o src/aura.min.js -c -m",
+    "serve": "npx serve ."
+  },
   "files": ["src/"],
   "repository": {
     "type": "git",

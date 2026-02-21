@@ -32,7 +32,7 @@
 
           <div class="aura-card" style="margin-bottom: 1.5rem;">
             <h2 class="aura-title aura-title-md">待办列表</h2>
-            <input class="aura-input" placeholder="输入新事项..." v-model="inputVal" @keydown="onKeydown" style="margin-bottom: 0.5rem;" />
+            <input class="aura-input" placeholder="输入新事项，按 Enter 添加..." v-model="inputVal" @keydown.enter="addTodo" style="margin-bottom: 0.5rem;" />
             <ul style="list-style: none; padding: 0; margin: 0;">
               <li v-for="item in todos" style="padding: 0.5rem 0; border-bottom: 1px solid var(--aura-border); display: flex; align-items: center; gap: 0.5rem;">
                 <input type="checkbox" :checked="item.done" @change="toggleItem(item)" />
@@ -59,8 +59,8 @@
           inputVal,
           increment: () => count.value++,
           decrement: () => count.value--,
-          onKeydown: (e) => {
-            if (e.key === 'Enter' && inputVal.value.trim()) {
+          addTodo: () => {
+            if (inputVal.value.trim()) {
               todos.value = [...todos.value, { id: nextId++, text: inputVal.value.trim(), done: false }];
               inputVal.value = '';
             }

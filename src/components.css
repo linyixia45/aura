@@ -125,3 +125,35 @@
 
 .aura-tab:hover { color: var(--aura-fg); }
 .aura-tab.aura-tab-active { color: var(--aura-accent); border-bottom-color: var(--aura-accent); }
+
+/* 按钮尺寸 */
+.aura-btn-sm { padding: var(--aura-space-xs) var(--aura-space-sm); font-size: 0.85rem; }
+.aura-btn-lg { padding: var(--aura-space-md) var(--aura-space-lg); font-size: 1rem; }
+
+/* 徽章 */
+.aura-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  border-radius: var(--aura-radius-sm);
+  background: var(--aura-mist);
+  color: var(--aura-muted);
+}
+
+/* 提示框 */
+.aura-alert {
+  padding: var(--aura-space-md);
+  border-radius: var(--aura-radius-md);
+  border: 1px solid var(--aura-border);
+  background: var(--aura-mist);
+}
+
+.aura-alert-success { border-color: var(--aura-palette-sage); background: rgba(135, 174, 115, 0.15); }
+.aura-alert-warn { border-color: var(--aura-palette-coral); background: rgba(224, 122, 95, 0.15); }
+
+/* 链接 */
+.aura-link {
+  color: var(--aura-accent);
+  text-decoration: none;
+}
+.aura-link:hover { text-decoration: underline; }

@@ -106,6 +106,16 @@ function evalExpr(expr, data) {
   }
 }
 
+function escapeHtml(s) {
+  if (s == null || typeof s !== 'string') return '';
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function processVFor(html, data) {
   const re = /<(\w+)([^>]*)\s+v-for="(\w+)\s+in\s+([^"]+)"([^>]*)>([\s\S]*?)<\/\1>/g;
   return html.replace(re, (_, tag, before, itemVar, listExpr, after, inner) => {
@@ -203,7 +213,7 @@ function processTemplate(template, data, ctx = {}, opts = {}) {
   out = processVShow(out, data);
   out = out.replace(/\{\{\s*(.+?)\s*\}\}/g, (_, expr) => {
     const v = evalExpr(expr, data);
-    return v == null ? '' : String(v);
+    return v == null ? '' : escapeHtml(String(v));
   });
   out = out.replace(/(<[^>]+)\s+v-if="([^"]+)"([^>]*)>/g, (_, pre, expr, post) => {
     const ok = !!evalExpr(expr, data);
@@ -227,15 +237,19 @@ function renderTemplate(template, ctx, container, mountQueue = []) {
   return update;
 }
 
+const KEY_ALIAS = { enter: 'Enter', tab: 'Tab', esc: 'Escape', space: ' ' };
 function bindEvents(container, ctx) {
-  const eventNames = ['click', 'input', 'keydown', 'keyup', 'change', 'submit'];
-  eventNames.forEach((name) => {
-    const attr = `@${name}`;
-    container.querySelectorAll(`[${attr}]`).forEach((el) => {
-      const handler = el.getAttribute(attr);
+  ['click', 'input', 'keydown', 'keyup', 'change', 'submit'].forEach((name) => {
+    container.querySelectorAll('*').forEach((el) => {
+      const attr = Array.from(el.attributes).find((a) => a.name.startsWith('@' + name) && (a.name === '@' + name || a.name.startsWith('@' + name + '.')));
+      if (!attr) return;
+      const handler = attr.value;
+      const fn = ctx[handler];
+      if (typeof fn !== 'function') return;
+      const mod = attr.name.includes('.') ? attr.name.split('.')[1] : null;
       el.addEventListener(name, (e) => {
-        const fn = ctx[handler];
-        if (typeof fn === 'function') fn(e);
+        if (mod && KEY_ALIAS[mod] !== undefined && e.key !== KEY_ALIAS[mod]) return;
+        fn(e);
       });
     });
   });

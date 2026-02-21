@@ -86,7 +86,7 @@ git clone -b v0.1.0 https://github.com/linyixia45/aura.git
 | 列表 | `v-for="item in list"` |
 | 双向绑定 | `v-model="ref"` |
 | 绑定 | `:checked` `:class` `:style` `:href` |
-| 事件 | `@click` `@input` `@keydown` 等 |
+| 事件 | `@click` `@input` `@keydown` `@keydown.enter` 等 |
 
 ## 📖 响应式 API
 
@@ -134,11 +134,12 @@ aura/
 
 ---
 
-## 🔧 本地运行示例
+## 🔧 本地运行
 
 ```bash
-npx serve .
-# 访问 http://localhost:3000/examples/index.html
+npm run serve
+# 或 npx serve .
+# 访问 http://localhost:3000/
 ```
 
 ---
@@ -146,6 +147,7 @@ npx serve .
 ## 📚 文档
 
 - [API 参考](docs/API.md)
+- [参与贡献](CONTRIBUTING.md)
 
 ---
 

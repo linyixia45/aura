@@ -93,6 +93,16 @@ nextTick(() => console.log(dom.textContent));
 
 ---
 
+## 模板事件修饰符
+
+键盘事件支持修饰符：`@keydown.enter`、`@keydown.esc`、`@keydown.tab`、`@keydown.space`。
+
+```html
+<input @keydown.enter="submit" />
+```
+
+---
+
 ## setup API 参数
 
 `setup({ onMounted })` 接收：
