@@ -88,6 +88,22 @@ function unref(v) {
   return v && typeof v === 'object' && 'value' in v ? v.value : v;
 }
 
+/** @param {*} v @returns {boolean} */
+function isRef(v) {
+  return v != null && typeof v === 'object' && 'value' in v;
+}
+
+/** 浅层 ref，内部 value 变化不触发更新，仅 .value 替换时触发 */
+function shallowRef(initial) {
+  const r = { get value() { return r._v; }, set value(v) { r._v = v; r._dep?.notify(); } };
+  r._v = initial;
+  r._dep = { subscribers: new Set(), depend() { if (currentEffect) this.subscribers.add(currentEffect); }, notify() { this.subscribers.forEach((f) => f()); } };
+  return new Proxy(r, {
+    get(t, k) { if (k === 'value') t._dep.depend(); return Reflect.get(t, k); },
+    set(t, k, v) { const ret = Reflect.set(t, k, v); if (k === 'value') t._dep?.notify(); return ret; },
+  });
+}
+
 function defineComponent(options) {
   return options;
 }
@@ -219,7 +235,8 @@ function processStyle(html, data) {
 }
 
 function processTemplate(template, data, ctx = {}, opts = {}) {
-  let out = processVFor(template, data);
+  let out = template.replace(/<[\s\S]*?v-pre[\s\S]*?>[\s\S]*?<\/\w+>/gi, (m) => m.replace(/\s+v-pre/g, ''));
+  out = processVFor(out, data);
   if (!opts.skipVModel && ctx) out = processVModel(out, data, ctx);
   out = processVBind(out, data);
   out = processClass(out, data);
@@ -247,6 +264,7 @@ function renderTemplate(template, ctx, container, mountQueue = []) {
     const data = getData(ctx);
     const html = processTemplate(template, data, ctx);
     container.innerHTML = html;
+    container.setAttribute('data-aura-mounted', '1');
     bindEvents(container, ctx);
     container.querySelectorAll('[v-cloak]').forEach((el) => el.removeAttribute('v-cloak'));
   };
