@@ -13,12 +13,14 @@ Vue-like reactive JS framework with anti-AI-slop design. No purple gradients, no
 类似 Vue 的轻量响应式框架，反「AI 味」设计系统。零构建、零依赖，让 AI 生成的页面不再千篇一律。
 ```
 
-## Website（可选）
+## Website
 
-若部署了 GitHub Pages：
+部署后填写（需先启用 Pages）：
 ```
 https://linyixia45.github.io/aura/
 ```
+
+**启用 GitHub Pages**：Settings → Pages → Source 选择 **GitHub Actions**。推送到 master 后会自动部署。
 
 ## Topics（标签，提升搜索发现）
 
@@ -33,6 +35,12 @@ frontend
 ai
 lightweight
 ```
+
+## 启用 GitHub Pages
+
+1. 推送后，进入 **Settings → Pages**
+2. **Source** 选择 **GitHub Actions**
+3. 等待 workflow 完成，访问 `https://linyixia45.github.io/aura/`
 
 ## 其他建议
 

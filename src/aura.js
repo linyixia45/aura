@@ -51,6 +51,35 @@ function effect(fn) {
   currentEffect = prev;
 }
 
+function watch(getter, cb, opts = {}) {
+  let prev = opts.immediate ? undefined : getter();
+  const run = () => {
+    const next = getter();
+    if (opts.immediate || prev !== next) {
+      cb(next, prev);
+      prev = next;
+    }
+  };
+  effect(run);
+}
+
+function watchEffect(fn) {
+  effect(fn);
+}
+
+function toRefs(obj) {
+  const refs = {};
+  const unwrap = (v) => (v && typeof v === 'object' && 'value' in v ? v.value : v);
+  for (const k of Object.keys(obj)) {
+    refs[k] = { get value() { return unwrap(obj[k]); }, set value(v) { obj[k] = v; } };
+  }
+  return refs;
+}
+
+function nextTick(fn) {
+  Promise.resolve().then(fn || (() => {}));
+}
+
 function createOnMounted(queue) {
   return (fn) => {
     if (typeof fn === 'function') queue.push(fn);
@@ -235,7 +264,7 @@ function createApp(options) {
 
 // Export
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { createApp, ref, computed, reactive, effect };
+  module.exports = { createApp, ref, computed, reactive, effect, watch, watchEffect, toRefs, nextTick };
 } else {
   window.Aura = {
     createApp,
@@ -243,5 +272,9 @@ if (typeof module !== 'undefined' && module.exports) {
     computed,
     reactive,
     effect,
+    watch,
+    watchEffect,
+    toRefs,
+    nextTick,
   };
 }

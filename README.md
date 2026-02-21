@@ -8,6 +8,8 @@
 
 > **Vue-like 轻量响应式框架**，内置反「AI 味」设计系统。零构建、零依赖，让 AI 生成的页面不再千篇一律。
 
+**[📦 在线 Demo](https://linyixia45.github.io/aura/)**
+
 [English](#english) | 简体中文
 
 ---
@@ -29,6 +31,7 @@ Aura 内置一套**刻意避开这些 cliché** 的设计令牌（大地色、�
 | 🎨 **反 AI 味设计** | 大地色/墨色 palette，非 Inter 字体，克制圆角与阴影 |
 | 📦 **零构建零依赖** | 纯 ES 模块，直接 `<script>` 引用或 CDN |
 | ⚡ **轻量** | 核心 < 5KB，适合嵌入与快速迭代 |
+| 🖥️ **在线 Demo** | [linyixia45.github.io/aura](https://linyixia45.github.io/aura) |
 
 ---
 
@@ -85,6 +88,14 @@ git clone -b v0.1.0 https://github.com/linyixia45/aura.git
 | 绑定 | `:checked` `:class` `:style` `:href` |
 | 事件 | `@click` `@input` `@keydown` 等 |
 
+## 📖 响应式 API
+
+| API | 说明 |
+|-----|------|
+| `ref` / `computed` | 响应式值与计算属性 |
+| `watch` / `watchEffect` | 监听变化 |
+| `toRefs` / `nextTick` | 工具函数 |
+
 ---
 
 ## 🎨 设计令牌
@@ -114,7 +125,10 @@ aura/
 │   └── components.css
 ├── examples/
 │   ├── index.html        # 计数器 + 待办
-│   └── demo-full.html    # v-model / v-show / 标签页
+│   ├── demo-full.html    # v-model / v-show / 标签页
+│   └── demo-watch.html   # watch / watchEffect
+├── docs/
+│   └── API.md            # API 参考
 └── README.md
 ```
 
@@ -126,6 +140,12 @@ aura/
 npx serve .
 # 访问 http://localhost:3000/examples/index.html
 ```
+
+---
+
+## 📚 文档
+
+- [API 参考](docs/API.md)
 
 ---
 
