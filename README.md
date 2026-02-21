@@ -61,17 +61,13 @@ AI 生成的网页总是一个味道：紫色渐变、Inter 字体、8px 圆角�
       <div>
         <h1 class="aura-title aura-title-lg">{{ title }}</h1>
         <p>{{ count }}</p>
-        <button class="aura-btn aura-btn-primary" @click="increment">+1</button>
+        <button class="aura-btn aura-btn-primary" @click="count++">+1</button>
       </div>
     `,
     setup() {
       const title = ref('Hello Aura');
       const count = ref(0);
-      return {
-        title,
-        count,
-        increment: () => count.value++,
-      };
+      return { title, count };
     },
   }).mount('#app');
 </script>

@@ -38,6 +38,7 @@
 | `defineComponent(opts)` | 组件封装 | 可选，直接返回 options |
 | `nextTick(fn)` | DOM 更新后执行 | `nextTick(() => {})` |
 | `unref(v)` | ref 取 value，非 ref 返回自身 | `unref(maybeRef)` |
+| `isRef(v)` | 判断是否为 ref | `isRef(x)` |
 
 ## 四、模板指令
 
