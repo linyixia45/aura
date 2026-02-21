@@ -7,8 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/src/design-tokens.css" />
-  <link rel="stylesheet" href="/src/components.css" />
+  <link rel="stylesheet" href="../src/design-tokens.css" />
+  <link rel="stylesheet" href="../src/components.css" />
   <style>
     .hero { text-align: center; padding: 4rem 1.5rem; max-width: 600px; margin: 0 auto; }
     .hero h1 { font-family: var(--aura-font-serif); font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--aura-palette-ink); }
@@ -25,7 +25,7 @@
   <noscript>请启用 JavaScript 以查看此页面</noscript>
   <div id="app"></div>
 
-  <script src="/src/aura.js"></script>
+  <script src="../src/aura.js"></script>
   <script>
     if (typeof window.Aura === 'undefined') {
       document.getElementById('app').innerHTML = '<div style="padding:2rem;max-width:480px;margin:0 auto;"><p style="color:var(--aura-muted);">脚本没加载好。examples 需要本地服务，试试 <code>npm start</code> 或 <code>npx serve .</code>，再访问本页。</p><p><a href="https://github.com/linyixia45/aura" class="aura-link">README</a></p></div>';

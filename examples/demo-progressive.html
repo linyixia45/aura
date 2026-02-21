@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aura - 渐进式：增强现有 HTML</title>
-  <link rel="stylesheet" href="/src/design-tokens.css" />
-  <link rel="stylesheet" href="/src/components.css" />
+  <link rel="stylesheet" href="../src/design-tokens.css" />
+  <link rel="stylesheet" href="../src/components.css" />
 </head>
 <body class="aura-app">
   <div id="app" style="max-width: 480px; margin: 2rem auto; padding: 1.5rem;" v-cloak>
@@ -14,7 +14,7 @@
     <p>{{ message }}</p>
     <button class="aura-btn aura-btn-primary" @click="count++">点击 {{ count }}</button>
   </div>
-  <script src="/src/aura.js"></script>
+  <script src="../src/aura.js"></script>
   <script>
     const { createApp, ref } = window.Aura;
     createApp({
