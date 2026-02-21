@@ -42,6 +42,12 @@ lightweight
 2. **Source** 选择 **GitHub Actions**
 3. 等待 workflow 完成，访问 `https://linyixia45.github.io/aura/`
 
+## 启用 GitHub Pages（如部署失败请检查）
+
+1. 打开 **Settings → Pages**
+2. 在 **Build and deployment** 下，**Source** 选择 **GitHub Actions**
+3. 不要选 "Deploy from a branch"
+
 ## 其他建议
 
 - 在 **Settings → General** 中勾选 **Issues**、**Discussions**（可选）
