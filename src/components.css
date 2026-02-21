@@ -82,6 +82,47 @@
 .aura-title-lg { font-size: 1.75rem; }
 .aura-title-md { font-size: 1.25rem; }
 
+/* Display / Hero 大标题（2025 趋势：大胆排版） */
+.aura-display {
+  font-family: var(--aura-font-serif);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--aura-palette-ink);
+}
+
+.aura-display-xl { font-size: var(--aura-display-xl); }
+.aura-display-lg { font-size: var(--aura-display-lg); }
+.aura-display-md { font-size: var(--aura-display-md); }
+
+.aura-hero {
+  text-align: center;
+  padding: clamp(3rem, 8vw, 5rem) var(--aura-space-md);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.aura-hero-tagline {
+  color: var(--aura-muted);
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+
+/* 网格布局（杂志 / 编辑风） */
+.aura-grid {
+  display: grid;
+  gap: var(--aura-space-lg);
+}
+
+.aura-grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.aura-grid-3 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+.aura-section {
+  padding: var(--aura-space-xl) var(--aura-space-md);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
 /* 模态框 */
 .aura-modal-overlay {
   position: fixed;

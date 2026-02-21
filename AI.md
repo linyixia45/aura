@@ -83,15 +83,51 @@ var(--aura-shadow-md)
 
 **组件类**：`aura-app` `aura-btn` `aura-btn-primary` `aura-card` `aura-input` `aura-title` `aura-title-lg`
 
-## 七、常见错误
+**设计感组件**：`aura-display aura-display-xl`（大标题）、`aura-hero`（首屏区）、`aura-hero-tagline`、`aura-grid aura-grid-2`（网格）、`aura-section`
+
+**主题**：`data-aura-theme="editorial"`（杂志风/大胆排版）、`data-aura-theme="monochrome"`（极简单色）、`data-aura-theme="dark"`、`data-aura-theme="sharp"`
+
+## 七、设计配方（供 AI 生成有设计感的页面）
+
+参考 Awwwards 2024-2025 获奖网站及反 AI 味设计趋势，遵循以下模式可生成有辨识度的页面：
+
+### 配方 1：杂志 / 编辑风（Maximalist Typography）
+
+- **大标题**：使用 `aura-display aura-display-xl`，文案简短有力（3–6 字）
+- **副标题**：`aura-hero-tagline`，补充说明
+- **布局**：`aura-hero` 居中、`aura-grid aura-grid-2` 或 `aura-grid-3` 分栏
+- **主题**：`<body class="aura-app" data-aura-theme="editorial">`
+- **留白**：`aura-section` 控制区块间距
+
+### 配方 2：极简单色（Igloo / Opal 风格）
+
+- **主题**：`data-aura-theme="monochrome"`
+- **配色**：仅灰白双色，高对比，无彩色点缀
+- **圆角**：可配合 `data-aura-theme="sharp"` 做直角
+- **适用**：品牌页、产品介绍、极简落地页
+
+### 配方 3：Aura 默认（大地色 / 森林绿）
+
+- 使用 `aura-app` 默认主题
+- 字体：`Source Serif 4` 标题 + `DM Sans` 正文
+- 强调色：森林绿 `var(--aura-accent)`，避免紫色、蓝紫渐变
+
+### 通用原则
+
+- **禁止**：紫色渐变、Inter/Roboto、过度圆角（>8px）、大 blur 阴影
+- **推荐**：流体字号 `var(--aura-display-xl)`、网格布局、留白充足
+- **参考示例**：`examples/demo-editorial.html`
+
+## 八、常见错误
 
 1. `@click="count++"` 已支持 ✅；复杂逻辑仍建议用函数名
 2. 路径 `../src/` ❌ → 用 `/src/` ✅
 3. 直接双击 HTML ❌ → 用 `npm run serve` 等本地服务 ✅
 
-## 八、示例文件
+## 九、示例文件
 
 - `examples/index.html` - 基础
 - `examples/demo-full.html` - 完整
 - `examples/demo-landing.html` - 落地页
 - `examples/demo-timer.html` - 计时器
+- `examples/demo-editorial.html` - 杂志风 / 大胆排版

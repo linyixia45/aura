@@ -49,6 +49,11 @@
   --aura-space-md: 16px;
   --aura-space-lg: 24px;
   --aura-space-xl: 32px;
+
+  /* === 大标题 / Display 字号（流体排版，反 AI 味） === */
+  --aura-display-xl: clamp(2rem, 5vw + 1.5rem, 3.5rem);
+  --aura-display-lg: clamp(1.75rem, 4vw + 1rem, 2.5rem);
+  --aura-display-md: clamp(1.25rem, 2.5vw + 0.75rem, 1.75rem);
 }
 
 /* 主题变体 */
@@ -65,4 +70,30 @@
   --aura-radius-sm: 0;
   --aura-radius-md: 0;
   --aura-radius-lg: 0;
+}
+
+/* 杂志 / 编辑风：大胆排版、强对比 */
+[data-aura-theme="editorial"] {
+  --aura-font-sans: 'DM Sans', 'Source Han Sans SC', system-ui, sans-serif;
+  --aura-font-serif: 'Source Serif 4', 'Noto Serif SC', Georgia, serif;
+  --aura-display-xl: clamp(2.25rem, 6vw + 1.5rem, 4rem);
+  --aura-display-lg: clamp(1.75rem, 4vw + 1rem, 2.75rem);
+  --aura-display-md: clamp(1.25rem, 3vw + 0.5rem, 1.875rem);
+  --aura-radius-sm: 0;
+  --aura-radius-md: 0;
+  --aura-radius-lg: 0;
+}
+
+/* 极简单色：Igloo/Opal 风格，克制双色 */
+[data-aura-theme="monochrome"] {
+  --aura-palette-ink: #383e4e;
+  --aura-palette-parchment: #f5f5f7;
+  --aura-palette-stone: #6b6f7d;
+  --aura-palette-mist: #e8e9ec;
+  --aura-bg: var(--aura-palette-parchment);
+  --aura-fg: var(--aura-palette-ink);
+  --aura-muted: var(--aura-palette-stone);
+  --aura-accent: var(--aura-palette-ink);
+  --aura-accent-hover: #4a5166;
+  --aura-border: #d4d6dc;
 }

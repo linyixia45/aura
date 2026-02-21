@@ -33,6 +33,10 @@ setup({ onMounted, onUnmounted }) {
 }
 ```
 
-##  design 类
+## 设计类
 
-`aura-app` `aura-btn` `aura-btn-primary` `aura-card` `aura-input` `aura-title` `aura-title-lg`
+**基础**：`aura-app` `aura-btn` `aura-btn-primary` `aura-card` `aura-input` `aura-title` `aura-title-lg`
+
+**设计感**：`aura-display aura-display-xl` `aura-hero` `aura-hero-tagline` `aura-grid aura-grid-2` `aura-section`
+
+**主题**：`data-aura-theme="editorial"` `monochrome` `dark` `sharp`
