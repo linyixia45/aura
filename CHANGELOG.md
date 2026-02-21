@@ -14,3 +14,14 @@
 - 反 AI 味设计令牌与基础组件
 - XSS 转义（`{{ }}` 插值）
 - `npm run build` 生成压缩版
+
+### 后续优化
+
+- `@click.prevent` / `@click.stop` / `@click.self`
+- `onUnmounted` 生命周期
+- `defineComponent` 组件封装
+- `@click="count++"` / `@click="count--"` 内联表达式
+- `starter.html` 零配置入门
+- `unref()` 工具函数
+- `v-cloak` 防闪烁
+- 友好错误提示

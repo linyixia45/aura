@@ -1,0 +1,15 @@
+---
+description: Aura 项目每次更新后必须推送到 Git
+globs: ["**/*"]
+---
+
+# Git 推送约定
+
+每次对 Aura 项目完成代码或文档修改后，必须：
+
+1. `git add .`
+2. `git status` 确认变更
+3. `git commit -m "描述性提交信息"`
+4. `git push origin master`
+
+**不要**在完成修改后跳过 push，确保远程仓库同步。

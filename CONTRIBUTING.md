@@ -1,5 +1,14 @@
 # 参与贡献
 
+## 提交后记得推送
+
+```bash
+git add .
+git commit -m "feat: xxx"
+git push origin master
+```
+
+
 欢迎向 Aura 提交 Issue 和 Pull Request。
 
 ## 开发环境

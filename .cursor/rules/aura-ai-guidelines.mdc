@@ -9,7 +9,7 @@ globs: ["**/*.html", "**/*.vue", "**/aura/**", "**/examples/**"]
 
 ## 核心约束
 
-1. **事件**：`@click="handler"` 的 handler 必须是 setup 返回的**函数名**，不能写 `@click="count++"`
+1. **事件**：`@click="handler"` 支持函数名，也支持内联 `@click="count++"` / `@click="count--"`
 2. **路径**：资源用 `/src/`，不要 `../src/`
 3. **设计**：使用 `aura-*` 类与设计令牌，禁止紫色渐变、Inter 字体
 
