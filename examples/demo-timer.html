@@ -48,7 +48,7 @@
           </div>
         </div>
       `,
-      setup({ onMounted }) {
+      setup() {
         const sec = ref(0);
         const running = ref(false);
         const laps = ref([]);
@@ -81,9 +81,6 @@
           if (running.value) laps.value = [...laps.value, display.value];
         }
 
-        onMounted(() => {
-          return () => { if (tid) clearInterval(tid); };
-        });
 
         return {
           display,
