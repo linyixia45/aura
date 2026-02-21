@@ -93,6 +93,13 @@ nextTick(() => console.log(dom.textContent));
 
 ---
 
+## 模板指令补充
+
+- **v-for** 支持 `(item, index) in list` 语法
+- **v-html** 渲染原始 HTML（慎用，需防 XSS）
+
+---
+
 ## 模板事件修饰符
 
 键盘事件支持修饰符：`@keydown.enter`、`@keydown.esc`、`@keydown.tab`、`@keydown.space`。

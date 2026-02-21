@@ -117,13 +117,14 @@ function escapeHtml(s) {
 }
 
 function processVFor(html, data) {
-  const re = /<(\w+)([^>]*)\s+v-for="(\w+)\s+in\s+([^"]+)"([^>]*)>([\s\S]*?)<\/\1>/g;
-  return html.replace(re, (_, tag, before, itemVar, listExpr, after, inner) => {
+  const re = /<(\w+)([^>]*)\s+v-for="\(?(\w+)(?:\s*,\s*(\w+))?\)?\s+in\s+([^"]+)"([^>]*)>([\s\S]*?)<\/\1>/g;
+  return html.replace(re, (_, tag, before, itemVar, indexVar, listExpr, after, inner) => {
     const list = evalExpr(listExpr, data);
     if (!Array.isArray(list)) return '';
     return list
       .map((item, i) => {
         const scope = { ...data, [itemVar]: item, index: i };
+        if (indexVar) scope[indexVar] = i;
         const innerHtml = processTemplate(inner, scope, null, { skipVModel: true });
         return `<${tag}${before}${after}>${innerHtml}</${tag}>`;
       })
@@ -214,6 +215,10 @@ function processTemplate(template, data, ctx = {}, opts = {}) {
   out = out.replace(/\{\{\s*(.+?)\s*\}\}/g, (_, expr) => {
     const v = evalExpr(expr, data);
     return v == null ? '' : escapeHtml(String(v));
+  });
+  out = out.replace(/<(\w+)([^>]*)\s+v-html="([^"]+)"([^>]*)>([\s\S]*?)<\/\1>/g, (_, tag, before, expr, after, _inner) => {
+    const v = evalExpr(expr, data);
+    return `<${tag}${before}${after}>${v != null ? String(v) : ''}</${tag}>`;
   });
   out = out.replace(/(<[^>]+)\s+v-if="([^"]+)"([^>]*)>/g, (_, pre, expr, post) => {
     const ok = !!evalExpr(expr, data);

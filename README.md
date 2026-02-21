@@ -83,7 +83,7 @@ git clone -b v0.1.0 https://github.com/linyixia45/aura.git
 |------|------|
 | 插值 | `{{ expr }}` |
 | 条件 | `v-if="expr"` / `v-show="expr"` |
-| 列表 | `v-for="item in list"` |
+| 列表 | `v-for="item in list"` / `v-for="(item, idx) in list"` |
 | 双向绑定 | `v-model="ref"` |
 | 绑定 | `:checked` `:class` `:style` `:href` |
 | 事件 | `@click` `@input` `@keydown` `@keydown.enter` 等 |
