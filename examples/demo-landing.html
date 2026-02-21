@@ -7,8 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../src/design-tokens.css" />
-  <link rel="stylesheet" href="../src/components.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/design-tokens.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/components.css" />
   <style>
     .hero { text-align: center; padding: 4rem 1.5rem; max-width: 600px; margin: 0 auto; }
     .hero h1 { font-family: var(--aura-font-serif); font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--aura-palette-ink); }
@@ -24,7 +24,7 @@
 <body class="aura-app">
   <div id="app"></div>
 
-  <script src="../src/aura.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/aura.js"></script>
   <script>
     const { createApp, ref } = window.Aura;
 
@@ -35,7 +35,7 @@
             <h1>墨迹</h1>
             <p class="tagline">专注写作的轻量工具 · 大地色、墨香、无干扰</p>
             <div class="cta-wrap">
-              <button class="aura-btn aura-btn-primary aura-btn-lg" @click="ctaCount++">立即开始</button>
+              <button class="aura-btn aura-btn-primary aura-btn-lg" @click="incrementCta">立即开始</button>
               <button class="aura-btn aura-btn-lg" @click="togglePreview">预览模式</button>
             </div>
             <p v-show="ctaCount > 0" style="color: var(--aura-muted); margin-top: 1rem;">已点击 {{ ctaCount }} 次 · 反 AI 味设计</p>
@@ -76,6 +76,7 @@
           ctaCount,
           email,
           submitted,
+          incrementCta: () => ctaCount.value++,
           togglePreview: () => { /* 示例 */ },
           submit: () => {
             if (email.value.trim()) {
