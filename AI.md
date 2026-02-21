@@ -37,6 +37,7 @@
 | `watch(getter, cb, { immediate })` | 监听 | `watch(() => x.value, (v) => {})` |
 | `defineComponent(opts)` | 组件封装 | 可选，直接返回 options |
 | `nextTick(fn)` | DOM 更新后执行 | `nextTick(() => {})` |
+| `unref(v)` | ref 取 value，非 ref 返回自身 | `unref(maybeRef)` |
 
 ## 四、模板指令
 

@@ -170,6 +170,7 @@ npm run serve
 | 文档 | 说明 |
 |------|------|
 | [AI.md](AI.md) | **AI 助手专用**：API、模板、设计约定、常见错误 |
+| [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md) | 新手四步入门 |
 | [docs/QUICK_REFERENCE.md](docs/QUICK_REFERENCE.md) | 一页速查 |
 | [docs/API.md](docs/API.md) | API 参考 |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | 参与贡献 |

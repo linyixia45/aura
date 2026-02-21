@@ -19,6 +19,7 @@ v-model="ref"        <!-- 双向绑定 -->
 
 ```js
 ref(0)               // { value: 0 }
+unref(x)             // ref 取 value，否则返回自身
 computed(() => x)    // 计算
 watch(getter, cb)    // 监听
 nextTick(fn)         // DOM 后

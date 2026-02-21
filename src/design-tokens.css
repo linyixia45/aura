@@ -3,6 +3,9 @@
  * 刻意避开：紫色渐变、Inter、过圆角、过度阴影
  */
 
+/* v-cloak：防止未编译模板闪烁 */
+[v-cloak] { display: none !important; }
+
 :root {
   /* === 颜色 - 避免紫色/蓝紫渐变 === */
   --aura-palette-ink: #1a1a1a;

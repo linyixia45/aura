@@ -83,6 +83,11 @@ function nextTick(fn) {
   return Promise.resolve().then(fn || (() => {}));
 }
 
+/** @param {*} v - ref 或普通值 @returns {*} */
+function unref(v) {
+  return v && typeof v === 'object' && 'value' in v ? v.value : v;
+}
+
 function defineComponent(options) {
   return options;
 }
@@ -243,6 +248,7 @@ function renderTemplate(template, ctx, container, mountQueue = []) {
     const html = processTemplate(template, data, ctx);
     container.innerHTML = html;
     bindEvents(container, ctx);
+    container.querySelectorAll('[v-cloak]').forEach((el) => el.removeAttribute('v-cloak'));
   };
   update();
   effect(update);
@@ -314,7 +320,7 @@ function createApp(options) {
 
 // Export
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { createApp, defineComponent, ref, computed, reactive, effect, watch, watchEffect, toRefs, nextTick };
+  module.exports = { createApp, defineComponent, ref, computed, reactive, unref, effect, watch, watchEffect, toRefs, nextTick };
 } else {
   window.Aura = {
     createApp,
@@ -322,6 +328,7 @@ if (typeof module !== 'undefined' && module.exports) {
     ref,
     computed,
     reactive,
+    unref,
     effect,
     watch,
     watchEffect,
