@@ -1,62 +1,36 @@
 ---
-description: 使用 Aura 框架时 AI 应遵循的设计与实现约定，以产出非「AI 味」界面
-globs: ["**/*.html", "**/*.vue", "**/aura/**"]
+description: Aura 框架 AI 指南 - 生成 Aura 页面时请先阅读 AI.md
+globs: ["**/*.html", "**/*.vue", "**/aura/**", "**/examples/**"]
 ---
 
-# Aura 框架 AI 使用指南
+# Aura 框架 · AI 指南
 
-当你使用 **Aura** 框架生成网页时，请严格遵循以下约定，以减少「AI 味」界面。
+生成 Aura 相关代码前，**请先阅读项目根目录的 `AI.md`**，内含完整 API、模板语法与常见错误。
 
-## 设计约定
+## 核心约束
 
-### 禁止使用
+1. **事件**：`@click="handler"` 的 handler 必须是 setup 返回的**函数名**，不能写 `@click="count++"`
+2. **路径**：资源用 `/src/`，不要 `../src/`
+3. **设计**：使用 `aura-*` 类与设计令牌，禁止紫色渐变、Inter 字体
 
-- **紫色 / 蓝紫渐变** 作为主色或背景
-- **Inter、Roboto** 作为主字体
-- **8px 或 12px 圆角** 的泛滥使用
-- 过度 `blur` 的大阴影
-- 全白背景 + 纯黑文字的极简组合
-
-### 优先使用
-
-- **Aura 设计令牌**：`var(--aura-bg)`、`var(--aura-fg)`、`var(--aura-accent)` 等
-- **Aura 字体**：`var(--aura-font-sans)`、`var(--aura-font-serif)`
-- **Aura 圆角**：`var(--aura-radius-sm)` / `var(--aura-radius-md)` / `var(--aura-radius-lg)`
-- **Aura 组件类**：`aura-btn`、`aura-btn-primary`、`aura-card`、`aura-input`、`aura-title`
-
-## 模板语法
-
-- 插值：`{{ expr }}`
-- 条件：`v-if="expr"` / `v-show="expr"`
-- 列表：`v-for="item in list"`
-- 双向绑定：`v-model="ref"`
-- 绑定：`:checked="bool"`、`:href="url"`、`:class="{ active: x }"`、`:style="{ color: c }"`
-- 事件：`@click="handler"`、`@input="onInput"`、`@keydown="onKeydown"`
-
-## 响应式与生命周期
-
-- `ref(initial)`：响应式值，通过 `.value` 读写
-- `computed(() => expr)`：计算属性
-- `setup({ onMounted })`：接收 API，`onMounted(fn)` 在挂载后执行
-
-## 示例片段
+## 最小模板
 
 ```html
-<div class="aura-app">
-  <h1 class="aura-title aura-title-lg">{{ title }}</h1>
-  <div class="aura-card">
-    <button class="aura-btn aura-btn-primary" @click="handleClick">按钮</button>
-  </div>
-</div>
+<link rel="stylesheet" href="/src/design-tokens.css" />
+<link rel="stylesheet" href="/src/components.css" />
+<script src="/src/aura.js"></script>
+<div id="app"></div>
+<script>
+  const { createApp, ref } = window.Aura;
+  createApp({
+    template: `<div>{{ msg }}</div>`,
+    setup() { return { msg: ref('Hi') }; },
+  }).mount('#app');
+</script>
 ```
 
-```js
-const { createApp, ref } = window.Aura;
-createApp({
-  template: `...`,
-  setup({ onMounted }) {
-    const title = ref('标题');
-    return { title, handleClick: () => {} };
-  },
-}).mount('#app');
-```
+## 引用
+
+- **AI.md** - 完整 AI 使用说明
+- **docs/QUICK_REFERENCE.md** - 一页速查
+- **docs/API.md** - API 参考

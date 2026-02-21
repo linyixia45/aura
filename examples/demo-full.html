@@ -64,6 +64,7 @@
           tab,
           loadTime,
           setTab: (t) => { tab.value = t; },
+          onSubmit: () => { /* @submit.prevent 阻止默认刷新 */ },
         };
       },
     }).mount('#app');

@@ -1,6 +1,7 @@
 /**
  * Aura - Vue-like reactive framework with anti-AI-slop design
- * 类似 Vue 的响应式框架，内置反「AI 味」设计系统
+ * @see https://github.com/linyixia45/aura
+ * @see ./AI.md - AI 使用说明
  */
 
 // ============ Reactivity ============
@@ -34,10 +35,12 @@ function reactive(obj) {
   });
 }
 
+/** @param {*} initial - 初始值 @returns {{ value: * }} */
 function ref(initial) {
   return reactive({ value: initial });
 }
 
+/** @param {() => *} getter @returns {{ value: * }} */
 function computed(getter) {
   const r = ref(undefined);
   effect(() => { r.value = getter(); });
@@ -269,7 +272,11 @@ function bindEvents(container, ctx) {
   });
 }
 
-// ============ createApp ============
+/**
+ * 创建 Aura 应用
+ * @param {{ template?: string, setup?: (api: { onMounted, onUnmounted }) => object }} options
+ * @returns {{ mount: (selector: string|Element) => { el, ctx, unmount } }}
+ */
 function createApp(options) {
   const { template, setup, components = {} } = options;
   return {
