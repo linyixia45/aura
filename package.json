@@ -6,7 +6,7 @@
   "files": ["src/"],
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOUR_USERNAME/aura.git"
+    "url": "https://github.com/linyixia45/aura.git"
   },
   "keywords": ["vue", "framework", "reactive", "design-system"]
 }

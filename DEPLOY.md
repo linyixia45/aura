@@ -19,19 +19,29 @@ git branch -M main
 git push -u origin main
 ```
 
-## 4. 他人引用方式
+## 4. 推送标签
 
 ```bash
-# 克隆
-git clone https://github.com/你的用户名/aura.git
+# 推送所有标签
+git push origin --tags
 
-# 作为 submodule 引用
-git submodule add https://github.com/你的用户名/aura.git lib/aura
+# 或只推送单个标签
+git push origin v0.1.0
 ```
 
-在 HTML 中引用（若部署到 jsDelivr）：
+## 5. 他人引用方式
+
+```bash
+# 克隆（指定标签）
+git clone -b v0.1.0 https://github.com/你的用户名/aura.git
+
+# 作为 submodule 引用
+git submodule add -b v0.1.0 https://github.com/你的用户名/aura.git lib/aura
+```
+
+在 HTML 中引用（jsDelivr CDN，推荐用标签更稳定）：
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/你的用户名/aura@main/src/design-tokens.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/你的用户名/aura@main/src/components.css" />
-<script src="https://cdn.jsdelivr.net/gh/你的用户名/aura@main/src/aura.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/design-tokens.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/components.css" />
+<script src="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/aura.js"></script>
 ```
