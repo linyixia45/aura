@@ -120,7 +120,8 @@ git clone -b v0.1.0 https://github.com/linyixia45/aura.git
 ```
 aura/
 ├── src/
-│   ├── aura.js           # 核心 (~4KB)
+│   ├── aura.js           # 核心
+│   ├── aura.min.js       # 压缩版（npm run build）
 │   ├── design-tokens.css
 │   └── components.css
 ├── examples/
