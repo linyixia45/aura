@@ -64,6 +64,14 @@ watchEffect(() => console.log(count.value));
 const { count, name } = toRefs(state);
 ```
 
+### unref(v)
+
+若 v 为 ref 则返回 v.value，否则返回 v 自身。用于兼容 ref 与普通值。
+
+```js
+const n = unref(maybeRef);
+```
+
 ### nextTick(fn?)
 
 在 DOM 更新后执行回调。
