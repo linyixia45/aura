@@ -211,6 +211,80 @@ function processVShow(html, data) {
   });
 }
 
+/** 找到从 start 开始的完整元素（含嵌套）的结束位置 */
+function findElementEnd(html, start) {
+  const m = html.slice(start).match(/^<(\w+)([^>]*)>/);
+  if (!m) return -1;
+  const tag = m[1];
+  let depth = 1;
+  let pos = start + m[0].length;
+  const openRe = new RegExp(`<${tag}(?:\\s|>)`, 'g');
+  const closeStr = `</${tag}>`;
+  while (depth > 0 && pos < html.length) {
+    const nextClose = html.indexOf(closeStr, pos);
+    if (nextClose === -1) return -1;
+    openRe.lastIndex = pos;
+    const nextOpen = openRe.exec(html);
+    if (nextOpen && nextOpen.index < nextClose) {
+      depth++;
+      pos = nextOpen.index + 1;
+    } else {
+      depth--;
+      pos = nextClose + closeStr.length;
+      if (depth === 0) return pos;
+    }
+  }
+  return -1;
+}
+
+function processVIfElse(html, data) {
+  const re = /<(?:(\w+)([^>]*?)\s+v-if="([^"]+)"([^>]*)>|(\w+)([^>]*?)\s+v-else-if="([^"]+)"([^>]*)>|(\w+)([^>]*?)\s+v-else(?!-if)([^>]*)>)/g;
+  let out = '';
+  let lastEnd = 0;
+  let chain = null;
+  let chainStart = 0;
+
+  const flushChain = () => {
+    if (!chain) return;
+    let chosen = -1;
+    for (let i = 0; i < chain.length; i++) {
+      if (chain[i].condition === null || !!evalExpr(chain[i].condition, data)) {
+        chosen = i;
+        break;
+      }
+    }
+    const strip = (s) => s.replace(/\s+v-if="[^"]+"/g, '').replace(/\s+v-else-if="[^"]+"/g, '').replace(/\s+v-else(?!-if)/g, '');
+    if (chosen >= 0) out += strip(chain[chosen].full);
+    chain = null;
+  };
+
+  let match;
+  while ((match = re.exec(html))) {
+    const isIf = match[3] !== undefined;
+    const isElseIf = match[7] !== undefined;
+    const isElse = match[10] !== undefined;
+    const start = match.index;
+    const end = findElementEnd(html, start);
+    if (end === -1) continue;
+    const full = html.slice(start, end);
+
+    if (isIf) {
+      flushChain();
+      out += html.slice(lastEnd, start);
+      chain = [{ condition: match[3], full }];
+    } else if (isElseIf && chain) {
+      chain.push({ condition: match[7], full });
+    } else if (isElse && chain) {
+      chain.push({ condition: null, full });
+    }
+    lastEnd = end;
+    re.lastIndex = end;
+  }
+  flushChain();
+  out += html.slice(lastEnd);
+  return out;
+}
+
 function processClass(html, data) {
   return html.replace(/(<[^>]*?)\sclass="([^"]*)"([^>]*?)\s:class="([^"]+)"([^>]*)>/g, (_, pre, staticCls, mid, expr, post) => {
     const v = evalExpr(expr, data);
@@ -237,6 +311,7 @@ function processStyle(html, data) {
 function processTemplate(template, data, ctx = {}, opts = {}) {
   let out = template.replace(/<[\s\S]*?v-pre[\s\S]*?>[\s\S]*?<\/\w+>/gi, (m) => m.replace(/\s+v-pre/g, ''));
   out = processVFor(out, data);
+  out = processVIfElse(out, data); /* v-if/v-else-if/v-else 须在插值前执行 */
   if (!opts.skipVModel && ctx) out = processVModel(out, data, ctx);
   out = processVBind(out, data);
   out = processClass(out, data);
@@ -250,11 +325,6 @@ function processTemplate(template, data, ctx = {}, opts = {}) {
     const v = evalExpr(expr, data);
     return `<${tag}${before}${after}>${v != null ? String(v) : ''}</${tag}>`;
   });
-  out = out.replace(/(<[^>]+)\s+v-if="([^"]+)"([^>]*)>/g, (_, pre, expr, post) => {
-    const ok = !!evalExpr(expr, data);
-    return ok ? pre + post + '>' : pre + post + ' style="display:none">';
-  });
-  out = out.replace(/\s+v-if="[^"]+"/g, '');
   return out;
 }
 

@@ -5,6 +5,8 @@
 ```html
 {{ expr }}           <!-- 插值 -->
 v-if="cond"          <!-- 条件渲染 -->
+v-else-if="cond"     <!-- 条件链 -->
+v-else               <!-- 否则 -->
 v-show="cond"        <!-- 切换显示 -->
 v-for="x in list"    <!-- 列表 -->
 v-for="(x, i) in list"

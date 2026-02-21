@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aura - v-if / v-else-if / v-else</title>
+  <link rel="stylesheet" href="/src/design-tokens.css" />
+  <link rel="stylesheet" href="/src/components.css" />
+</head>
+<body class="aura-app">
+  <div id="app" style="max-width: 480px; margin: 0 auto; padding: 2rem;" v-cloak></div>
+  <script src="/src/aura.js"></script>
+  <script>
+    const { createApp, ref } = window.Aura;
+    createApp({
+      template: `
+        <div>
+          <h1 class="aura-title aura-title-lg">v-if / v-else-if / v-else</h1>
+          <p style="color: var(--aura-muted); margin-bottom: 1rem;">切换分数区间查看不同提示</p>
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+            <button class="aura-btn" @click="score--">−</button>
+            <span style="font-size: 1.25rem; min-width: 3rem;">{{ score }}</span>
+            <button class="aura-btn aura-btn-primary" @click="score++">+</button>
+          </div>
+          <div class="aura-card">
+            <p v-if="score >= 90" style="color: var(--aura-palette-sage); font-weight: 600;">优秀</p>
+            <p v-else-if="score >= 60" style="color: var(--aura-accent);">及格</p>
+            <p v-else style="color: var(--aura-palette-coral);">不及格</p>
+          </div>
+          <p v-if="score < 0" style="margin-top: 0.5rem; color: var(--aura-muted);">分数可以为负</p>
+        </div>
+      `,
+      setup() {
+        const score = ref(85);
+        return { score };
+      },
+    }).mount('#app');
+  </script>
+</body>
+</html>

@@ -46,6 +46,7 @@
 |------|------|------|
 | 插值 | `{{ expr }}` | 自动 HTML 转义 |
 | 条件 | `v-if="expr"` | 为假时隐藏 |
+| 条件链 | `v-else-if="expr"` / `v-else` | 与 v-if 相邻，显示首个为真的分支 |
 | 显示 | `v-show="expr"` | 切换 display |
 | 列表 | `v-for="item in list"` | 或 `v-for="(item, i) in list"` |
 | 双向 | `v-model="ref"` | 仅支持 input 等表单 |
@@ -118,16 +119,38 @@ var(--aura-shadow-md)
 - **推荐**：流体字号 `var(--aura-display-xl)`、网格布局、留白充足
 - **参考示例**：`examples/demo-editorial.html`
 
-## 八、常见错误
+## 八、AI 风格推荐（根据项目自动选风格写样式）
+
+**使用方式**：当用户描述项目或页面类型时，根据下表自动选择主题与组件组合，并生成对应样式。
+
+| 项目类型 | 推荐主题 | 推荐组件/布局 | 说明 |
+|----------|----------|----------------|------|
+| 作品集 / 个人主页 | `editorial` | `aura-display aura-display-xl`、`aura-hero`、`aura-grid-2` | 杂志风、大胆排版、留白充足 |
+| 品牌 / 产品落地页 | `monochrome` 或默认 | `aura-hero`、`aura-section`、`aura-card` | 极简或大地色，强调产品信息 |
+| 仪表盘 / 后台 | `monochrome` 或 `dark` | `aura-grid aura-grid-2`、`aura-card`、`aura-tabs` | 信息密度高，克制配色 |
+| 博客 / 文章站 | 默认 | `aura-title`、`aura-font-serif`、`aura-section` | 阅读舒适，森林绿点缀 |
+| 工具 / 表单页 | 默认 | `aura-input`、`aura-btn`、`aura-alert` | 表单清晰，反馈明确 |
+| 营销 / 活动页 | `editorial` | `aura-display`、`aura-hero-tagline`、CTA 按钮突出 | 吸引注意力，行动号召明显 |
+
+**自动输出示例**：若用户说「做一个作品集首页」，应输出：
+- `<body class="aura-app" data-aura-theme="editorial">`
+- 大标题用 `aura-display aura-display-xl`
+- 区块用 `aura-hero`、`aura-section`、`aura-grid aura-grid-2`
+- 避免紫色、Inter、大圆角
+
+**若用户未指定类型**：默认使用 `aura-app`（大地色主题）与基础组件。
+
+## 九、常见错误
 
 1. `@click="count++"` 已支持 ✅；复杂逻辑仍建议用函数名
 2. 路径 `../src/` ❌ → 用 `/src/` ✅
 3. 直接双击 HTML ❌ → 用 `npm run serve` 等本地服务 ✅
 
-## 九、示例文件
+## 十、示例文件
 
 - `examples/index.html` - 基础
 - `examples/demo-full.html` - 完整
 - `examples/demo-landing.html` - 落地页
 - `examples/demo-timer.html` - 计时器
 - `examples/demo-editorial.html` - 杂志风 / 大胆排版
+- `examples/demo-v-if-else.html` - v-if / v-else-if / v-else

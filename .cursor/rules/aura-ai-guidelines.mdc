@@ -29,8 +29,22 @@ globs: ["**/*.html", "**/*.vue", "**/aura/**", "**/examples/**"]
 </script>
 ```
 
+## 风格推荐（根据项目类型自动选）
+
+用户描述项目时，按 **AI.md 第八节「AI 风格推荐」** 选择主题并写出样式：
+
+| 项目类型 | 主题 | 组件 |
+|----------|------|------|
+| 作品集 / 个人主页 | `data-aura-theme="editorial"` | `aura-display aura-display-xl`、`aura-hero`、`aura-grid-2` |
+| 品牌 / 产品落地页 | `monochrome` 或默认 | `aura-hero`、`aura-section`、`aura-card` |
+| 仪表盘 / 后台 | `monochrome` / `dark` | `aura-grid`、`aura-card`、`aura-tabs` |
+| 博客 / 文章站 | 默认 | `aura-title`、`aura-section` |
+| 营销 / 活动页 | `editorial` | `aura-display`、`aura-hero-tagline`、CTA 突出 |
+
+未指定类型时默认用 `aura-app` 大地色。
+
 ## 引用
 
-- **AI.md** - 完整 AI 使用说明
+- **AI.md** - 完整 AI 使用说明（含设计配方、风格推荐）
 - **docs/QUICK_REFERENCE.md** - 一页速查
 - **docs/API.md** - API 参考
