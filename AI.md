@@ -48,7 +48,7 @@
 | 列表 | `v-for="item in list"` | 或 `v-for="(item, i) in list"` |
 | 双向 | `v-model="ref"` | 仅支持 input 等表单 |
 | 属性 | `:attr="expr"` | 如 `:href` `:class` `:disabled` |
-| 事件 | `@click="fn"` | 必须为 setup 返回的函数名 |
+| 事件 | `@click="fn"` | 函数名，或内联 `@click="count++"` / `@click="count--"` |
 | 修饰符 | `@click.prevent` `@click.stop` | `.prevent` `.stop` `.self` |
 | 键盘 | `@keydown.enter` | `.enter` `.esc` `.tab` `.space` |
 
@@ -83,7 +83,7 @@ var(--aura-shadow-md)
 
 ## 七、常见错误
 
-1. `@click="count++"` ❌ → 用 `@click="increment"`，且 `increment: () => count.value++` ✅
+1. `@click="count++"` 已支持 ✅；复杂逻辑仍建议用函数名
 2. 路径 `../src/` ❌ → 用 `/src/` ✅
 3. 直接双击 HTML ❌ → 用 `npm run serve` 等本地服务 ✅
 

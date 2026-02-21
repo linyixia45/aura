@@ -77,6 +77,16 @@ AI 生成的网页总是一个味道：紫色渐变、Inter 字体、8px 圆角�
 </script>
 ```
 
+### 零配置入门（推荐新手）
+
+复制 [starter.html](starter.html) 即可运行，使用 CDN 无需安装、无需本地服务：
+
+```bash
+# 下载后直接用浏览器打开
+curl -o my-aura.html https://raw.githubusercontent.com/linyixia45/aura/main/starter.html
+# 或复制 starter.html 内容
+```
+
 ### Git 克隆
 
 ```bash

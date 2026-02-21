@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aura 入门</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/design-tokens.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/components.css" />
+</head>
+<body class="aura-app">
+  <div id="app"></div>
+  <script src="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/aura.js"></script>
+  <script>
+    const { createApp, ref } = window.Aura;
+    createApp({
+      template: `
+        <div style="max-width: 400px; margin: 2rem auto; padding: 1rem;">
+          <h1 class="aura-title aura-title-lg">Aura 入门</h1>
+          <p style="color: var(--aura-muted);">复制此文件即可开始，支持 CDN 无需安装。</p>
+          <p style="font-size: 1.5rem;">{{ count }}</p>
+          <button class="aura-btn aura-btn-primary" @click="count++">+1</button>
+          <button class="aura-btn" @click="count--">-1</button>
+        </div>
+      `,
+      setup() {
+        return { count: ref(0) };
+      },
+    }).mount('#app');
+  </script>
+</body>
+</html>

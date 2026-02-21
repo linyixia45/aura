@@ -259,14 +259,24 @@ function bindEvents(container, ctx) {
       if (!attr) return;
       const handler = attr.value;
       const fn = ctx[handler];
-      if (typeof fn !== 'function') return;
+      if (typeof fn !== 'function') {
+        const s = String(handler).trim();
+        if (!/^\w+\+\+$|^\w+--$/.test(s)) return;
+      }
       const mods = attr.name.includes('.') ? attr.name.split('.').slice(1) : [];
+      const run = typeof fn === 'function' ? fn : function () {
+          const s = String(handler).trim();
+          const inc = s.match(/^(\w+)\+\+$/);
+          const dec = s.match(/^(\w+)--$/);
+          if (inc && ctx[inc[1]]?.value !== undefined) ctx[inc[1]].value++;
+          else if (dec && ctx[dec[1]]?.value !== undefined) ctx[dec[1]].value--;
+        };
       el.addEventListener(name, (e) => {
         if (mods.includes('self') && e.target !== el) return;
         const keyMod = mods.find((m) => KEY_ALIAS[m] !== undefined);
         if (keyMod && e.key !== KEY_ALIAS[keyMod]) return;
         mods.forEach((m) => { if (EVENT_MODIFIERS[m]) EVENT_MODIFIERS[m](e); });
-        fn(e);
+        (typeof fn === 'function' ? fn : run)(e);
       });
     });
   });
@@ -282,7 +292,7 @@ function createApp(options) {
   return {
     mount(selector) {
       const el = typeof selector === 'string' ? document.querySelector(selector) : selector;
-      if (!el) throw new Error('Mount target not found');
+      if (!el) throw new Error('[Aura] mount 失败：未找到 "' + selector + '"，请检查该元素是否存在。参考：https://github.com/linyixia45/aura#readme');
       const mountQueue = [];
       const queues = { mount: [], unmount: [] };
       const api = createLifecycle(queues);
