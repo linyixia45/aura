@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aura 示例 - 反 AI 味框架</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../src/design-tokens.css" />
+  <link rel="stylesheet" href="../src/components.css" />
+</head>
+<body class="aura-app">
+  <div id="app" style="max-width: 640px; margin: 0 auto; padding: 2rem;"></div>
+
+  <script src="../src/aura.js"></script>
+  <script>
+    const { createApp, ref, computed } = window.Aura;
+
+    createApp({
+      template: `
+        <div>
+          <h1 class="aura-title aura-title-lg">Aura 示例</h1>
+          <p style="color: var(--aura-muted); margin: 0.5rem 0 1.5rem;">使用 Aura 构建的界面，避免紫色渐变与 Inter 字体</p>
+
+          <div class="aura-card" style="margin-bottom: 1.5rem;">
+            <h2 class="aura-title aura-title-md">计数器</h2>
+            <p style="font-size: 1.5rem;">{{ count }}</p>
+            <button class="aura-btn aura-btn-primary" @click="increment">+1</button>
+            <button class="aura-btn" @click="decrement" style="margin-left: 0.5rem;">-1</button>
+          </div>
+
+          <div class="aura-card" style="margin-bottom: 1.5rem;">
+            <h2 class="aura-title aura-title-md">待办列表</h2>
+            <input class="aura-input" placeholder="输入新事项..." v-model="inputVal" @keydown="onKeydown" style="margin-bottom: 0.5rem;" />
+            <ul style="list-style: none; padding: 0; margin: 0;">
+              <li v-for="item in todos" style="padding: 0.5rem 0; border-bottom: 1px solid var(--aura-border); display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" :checked="item.done" @change="toggleItem(item)" />
+                <span style="flex: 1; text-decoration: {{ item.done ? 'line-through' : 'none' }}; color: {{ item.done ? 'var(--aura-muted)' : 'inherit' }}">{{ item.text }}</span>
+                <button class="aura-btn" style="padding: 2px 8px; font-size: 0.8rem;" @click="remove(item)">删除</button>
+              </li>
+            </ul>
+            <p v-if="todos.length === 0" style="color: var(--aura-muted); margin: 0.5rem 0;">暂无待办</p>
+          </div>
+        </div>
+      `,
+      setup() {
+        const count = ref(0);
+        const todos = ref([
+          { id: 1, text: '体验 Aura 框架', done: false },
+          { id: 2, text: '使用反 AI 味设计令牌', done: false },
+        ]);
+        const inputVal = ref('');
+        let nextId = 3;
+
+        return {
+          count,
+          todos,
+          inputVal,
+          increment: () => count.value++,
+          decrement: () => count.value--,
+          onKeydown: (e) => {
+            if (e.key === 'Enter' && inputVal.value.trim()) {
+              todos.value = [...todos.value, { id: nextId++, text: inputVal.value.trim(), done: false }];
+              inputVal.value = '';
+            }
+          },
+          toggleItem: (item) => {
+            item.done = !item.done;
+            todos.value = [...todos.value];
+          },
+          remove: (item) => {
+            todos.value = todos.value.filter((t) => t.id !== item.id);
+          },
+        };
+      },
+    }).mount('#app');
+  </script>
+</body>
+</html>

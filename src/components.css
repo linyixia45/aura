@@ -1,0 +1,127 @@
+/**
+ * Aura 基础组件样式 - 基于设计令牌，避免 AI 味
+ */
+
+/* 引入设计令牌 */
+@import './design-tokens.css';
+
+/* 基础重置 */
+.aura-app {
+  font-family: var(--aura-font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--aura-fg);
+  background: var(--aura-bg);
+  min-height: 100vh;
+}
+
+/* 按钮 */
+.aura-btn {
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: var(--aura-space-sm) var(--aura-space-md);
+  border: 1px solid var(--aura-border);
+  border-radius: var(--aura-radius-md);
+  background: var(--aura-bg);
+  color: var(--aura-fg);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  box-shadow: var(--aura-shadow-sm);
+}
+
+.aura-btn:hover {
+  border-color: var(--aura-accent);
+  background: var(--aura-mist);
+}
+
+.aura-btn-primary {
+  background: var(--aura-accent);
+  color: var(--aura-palette-parchment);
+  border-color: var(--aura-accent);
+}
+
+.aura-btn-primary:hover {
+  background: var(--aura-accent-hover);
+  border-color: var(--aura-accent-hover);
+}
+
+/* 卡片 */
+.aura-card {
+  background: var(--aura-bg);
+  border: 1px solid var(--aura-border);
+  border-radius: var(--aura-radius-lg);
+  padding: var(--aura-space-lg);
+  box-shadow: var(--aura-shadow-md);
+}
+
+/* 输入框 */
+.aura-input {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: var(--aura-space-sm) var(--aura-space-md);
+  border: 1px solid var(--aura-border);
+  border-radius: var(--aura-radius-md);
+  background: var(--aura-bg);
+  color: var(--aura-fg);
+  width: 100%;
+  max-width: 320px;
+}
+
+.aura-input:focus {
+  outline: none;
+  border-color: var(--aura-accent);
+}
+
+/* 标题 */
+.aura-title {
+  font-family: var(--aura-font-serif);
+  font-weight: 600;
+  color: var(--aura-palette-ink);
+}
+
+.aura-title-lg { font-size: 1.75rem; }
+.aura-title-md { font-size: 1.25rem; }
+
+/* 模态框 */
+.aura-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.aura-modal {
+  background: var(--aura-bg);
+  border: 1px solid var(--aura-border);
+  border-radius: var(--aura-radius-lg);
+  padding: var(--aura-space-lg);
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: var(--aura-shadow-lg);
+}
+
+/* 标签页 */
+.aura-tabs {
+  display: flex;
+  gap: var(--aura-space-sm);
+  border-bottom: 1px solid var(--aura-border);
+  margin-bottom: var(--aura-space-md);
+}
+
+.aura-tab {
+  padding: var(--aura-space-sm) var(--aura-space-md);
+  border: none;
+  background: none;
+  color: var(--aura-muted);
+  cursor: pointer;
+  font-family: inherit;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.aura-tab:hover { color: var(--aura-fg); }
+.aura-tab.aura-tab-active { color: var(--aura-accent); border-bottom-color: var(--aura-accent); }

@@ -1,0 +1,62 @@
+---
+description: 使用 Aura 框架时 AI 应遵循的设计与实现约定，以产出非「AI 味」界面
+globs: ["**/*.html", "**/*.vue", "**/aura/**"]
+---
+
+# Aura 框架 AI 使用指南
+
+当你使用 **Aura** 框架生成网页时，请严格遵循以下约定，以减少「AI 味」界面。
+
+## 设计约定
+
+### 禁止使用
+
+- **紫色 / 蓝紫渐变** 作为主色或背景
+- **Inter、Roboto** 作为主字体
+- **8px 或 12px 圆角** 的泛滥使用
+- 过度 `blur` 的大阴影
+- 全白背景 + 纯黑文字的极简组合
+
+### 优先使用
+
+- **Aura 设计令牌**：`var(--aura-bg)`、`var(--aura-fg)`、`var(--aura-accent)` 等
+- **Aura 字体**：`var(--aura-font-sans)`、`var(--aura-font-serif)`
+- **Aura 圆角**：`var(--aura-radius-sm)` / `var(--aura-radius-md)` / `var(--aura-radius-lg)`
+- **Aura 组件类**：`aura-btn`、`aura-btn-primary`、`aura-card`、`aura-input`、`aura-title`
+
+## 模板语法
+
+- 插值：`{{ expr }}`
+- 条件：`v-if="expr"` / `v-show="expr"`
+- 列表：`v-for="item in list"`
+- 双向绑定：`v-model="ref"`
+- 绑定：`:checked="bool"`、`:href="url"`、`:class="{ active: x }"`、`:style="{ color: c }"`
+- 事件：`@click="handler"`、`@input="onInput"`、`@keydown="onKeydown"`
+
+## 响应式与生命周期
+
+- `ref(initial)`：响应式值，通过 `.value` 读写
+- `computed(() => expr)`：计算属性
+- `setup({ onMounted })`：接收 API，`onMounted(fn)` 在挂载后执行
+
+## 示例片段
+
+```html
+<div class="aura-app">
+  <h1 class="aura-title aura-title-lg">{{ title }}</h1>
+  <div class="aura-card">
+    <button class="aura-btn aura-btn-primary" @click="handleClick">按钮</button>
+  </div>
+</div>
+```
+
+```js
+const { createApp, ref } = window.Aura;
+createApp({
+  template: `...`,
+  setup({ onMounted }) {
+    const title = ref('标题');
+    return { title, handleClick: () => {} };
+  },
+}).mount('#app');
+```

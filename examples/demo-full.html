@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aura 完整示例</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../src/design-tokens.css" />
+  <link rel="stylesheet" href="../src/components.css" />
+</head>
+<body class="aura-app">
+  <div id="app" style="max-width: 640px; margin: 0 auto; padding: 2rem;"></div>
+
+  <script src="../src/aura.js"></script>
+  <script>
+    const { createApp, ref, computed } = window.Aura;
+
+    createApp({
+      template: `
+        <div>
+          <h1 class="aura-title aura-title-lg">Aura 完整示例</h1>
+          <p style="color: var(--aura-muted); margin-bottom: 1.5rem;">v-model · v-show · :class · onMounted · 标签页</p>
+
+          <div class="aura-card" style="margin-bottom: 1.5rem;">
+            <h2 class="aura-title aura-title-md">v-model 表单</h2>
+            <input class="aura-input" v-model="name" placeholder="输入姓名" style="margin-bottom: 0.5rem;" />
+            <p v-show="name">你好，{{ name }}！</p>
+          </div>
+
+          <div class="aura-card" style="margin-bottom: 1.5rem;">
+            <h2 class="aura-title aura-title-md">标签页</h2>
+            <div class="aura-tabs">
+              <button class="aura-tab" :class="{ 'aura-tab-active': tab === 'a' }" @click="setTab('a')">标签 A</button>
+              <button class="aura-tab" :class="{ 'aura-tab-active': tab === 'b' }" @click="setTab('b')">标签 B</button>
+              <button class="aura-tab" :class="{ 'aura-tab-active': tab === 'c' }" @click="setTab('c')">标签 C</button>
+            </div>
+            <p v-show="tab === 'a'">这是标签 A 的内容</p>
+            <p v-show="tab === 'b'">这是标签 B 的内容</p>
+            <p v-show="tab === 'c'">这是标签 C 的内容</p>
+          </div>
+
+          <div class="aura-card">
+            <h2 class="aura-title aura-title-md">onMounted</h2>
+            <p>页面加载时间：{{ loadTime }}</p>
+          </div>
+        </div>
+      `,
+      setup({ onMounted }) {
+        const name = ref('');
+        const tab = ref('a');
+        const loadTime = ref('');
+
+        onMounted(() => {
+          loadTime.value = new Date().toLocaleTimeString('zh-CN');
+        });
+
+        return {
+          name,
+          tab,
+          loadTime,
+          setTab: (t) => { tab.value = t; },
+        };
+      },
+    }).mount('#app');
+  </script>
+</body>
+</html>
