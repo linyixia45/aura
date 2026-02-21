@@ -1,0 +1,12 @@
+{
+  "name": "aura-framework",
+  "version": "0.1.0",
+  "description": "Vue-like reactive framework with anti-AI-slop design system",
+  "main": "src/aura.js",
+  "files": ["src/"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/aura.git"
+  },
+  "keywords": ["vue", "framework", "reactive", "design-system"]
+}

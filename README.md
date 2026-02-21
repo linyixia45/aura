@@ -8,6 +8,16 @@
 - **模板语法**：`{{ }}`、`v-if`、`v-for`、`:attr`、`@event`
 - **设计令牌**：大地色/墨色/森林色 palette，DM Sans / Source Serif 字体，克制圆角与阴影
 
+## 安装 / 引用
+
+```bash
+# 克隆
+git clone https://github.com/YOUR_USERNAME/aura.git
+
+# 或作为 submodule
+git submodule add https://github.com/YOUR_USERNAME/aura.git lib/aura
+```
+
 ## 快速开始
 
 ```html
