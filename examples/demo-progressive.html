@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aura - 渐进式：增强现有 HTML</title>
+  <link rel="stylesheet" href="/src/design-tokens.css" />
+  <link rel="stylesheet" href="/src/components.css" />
+</head>
+<body class="aura-app">
+  <div id="app" style="max-width: 480px; margin: 2rem auto; padding: 1.5rem;" v-cloak>
+    <h1 class="aura-title aura-title-lg">渐进式用法</h1>
+    <p style="color: var(--aura-muted); margin-bottom: 1rem;">无 template，用挂载点 innerHTML 作为模板</p>
+    <p>{{ message }}</p>
+    <button class="aura-btn aura-btn-primary" @click="count++">点击 {{ count }}</button>
+  </div>
+  <script src="/src/aura.js"></script>
+  <script>
+    const { createApp, ref } = window.Aura;
+    createApp({
+      setup() {
+        return { message: ref('像 Vue In-DOM 一样增强现有 HTML'), count: ref(0) };
+      },
+    }).mount('#app');
+  </script>
+</body>
+</html>

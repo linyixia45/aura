@@ -10,15 +10,34 @@
 
 ## 二、最小可运行示例
 
+**方式 A**：传 template
+
 ```html
-<link rel="stylesheet" href="/src/design-tokens.css" />
-<link rel="stylesheet" href="/src/components.css" />
-<script src="/src/aura.js"></script>
 <div id="app"></div>
+<script src="/src/aura.js"></script>
 <script>
   const { createApp, ref } = window.Aura;
   createApp({
     template: `<div><h1>{{ title }}</h1><button @click="inc">+1</button></div>`,
+    setup() {
+      const title = ref('Hello');
+      return { title, inc: () => title.value++ };
+    },
+  }).mount('#app');
+</script>
+```
+
+**方式 B**：无 template，用挂载点 innerHTML 作为模板（渐进式，增强现有 HTML）
+
+```html
+<div id="app">
+  <h1>{{ title }}</h1>
+  <button @click="inc">+1</button>
+</div>
+<script src="/src/aura.js"></script>
+<script>
+  const { createApp, ref } = window.Aura;
+  createApp({
     setup() {
       const title = ref('Hello');
       return { title, inc: () => title.value++ };
@@ -183,3 +202,4 @@ var(--aura-shadow-md)
 - `examples/demo-editorial.html` - 杂志风 / 大胆排版
 - `examples/demo-v-if-else.html` - v-if / v-else-if / v-else
 - `examples/demo-multi-component.html` - 多组件（props、slot）
+- `examples/demo-progressive.html` - 渐进式（无 template，增强现有 HTML）

@@ -18,15 +18,18 @@
 
 AI 生成的网页总是一个味道：紫色渐变、Inter 字体、8px 圆角……**审美疲劳**。Aura 内置反 cliché 设计令牌，采用 **Vue 式 API**，上手即用。
 
-## 为什么 Vue 式？（借鉴 Vue 的设计哲学）
+## 为什么 Vue 式？（借鉴 Vue 受欢迎的原因）
+
+Vue 以**渐进式**、**学习曲线平缓**、**文档友好**著称。Aura 吸收这些优点：
 
 | Vue 受欢迎的原因 | Aura 对应 |
 |-----------------|----------|
-| **渐进式** | 零构建，一个 `<script>` 即可用 |
+| **渐进式** | 零构建；可 CDN、可增强现有 HTML、可多组件 |
 | **学习曲线平缓** | 会 Vue 就会 Aura，API 高度一致 |
-| **模板直观** | HTML 风模板，`{{ }}`、`v-if`、`v-for` |
+| **模板直观** | HTML 风模板，`{{ }}`、`v-if`、`v-for`、`v-else-if` |
 | **响应式简单** | `ref`、`computed`，逻辑清晰 |
-| **灵活** | 小到单页，大到多页，均可胜任 |
+| **增强现有页面** | 无 template 时用挂载点 innerHTML 作为模板（类似 Vue In-DOM） |
+| **灵活** | 小到单页，大到多组件，均可胜任 |
 
 ---
 
@@ -75,12 +78,26 @@ AI 生成的网页总是一个味道：紫色渐变、Inter 字体、8px 圆角�
 
 ### 零配置入门（推荐新手）
 
-复制 [starter.html](starter.html) 即可运行，使用 CDN 无需安装、无需本地服务：
+复制 [starter.html](starter.html) 即可运行，使用 CDN 无需安装、无需本地服务。
 
-```bash
-# 下载后直接用浏览器打开
-curl -o my-aura.html https://raw.githubusercontent.com/linyixia45/aura/main/starter.html
-# 或复制 starter.html 内容
+### 渐进式：增强现有 HTML（类似 jQuery / Vue In-DOM）
+
+无 `template` 时，用挂载点 innerHTML 作为模板，适合在现有页面局部增强：
+
+```html
+<div id="app">
+  <p>{{ message }}</p>
+  <button class="aura-btn" @click="count++">点击 {{ count }}</button>
+</div>
+<script src="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/aura.js"></script>
+<script>
+  const { createApp, ref } = window.Aura;
+  createApp({
+    setup() {
+      return { message: ref('Hi'), count: ref(0) };
+    },
+  }).mount('#app');
+</script>
 ```
 
 ### Git 克隆

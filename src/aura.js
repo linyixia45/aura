@@ -476,7 +476,8 @@ function createApp(options) {
       const api = createLifecycle(queues);
       const setupResult = typeof setup === 'function' ? setup(api) : {};
       const ctx = { ...setupResult };
-      if (template) renderTemplate(template, ctx, el, queues.mount, { components });
+      const tpl = template || el.innerHTML.trim();
+      if (tpl) renderTemplate(tpl, ctx, el, queues.mount, { components });
       return {
         el,
         ctx,
