@@ -77,12 +77,17 @@ function toRefs(obj) {
 }
 
 function nextTick(fn) {
-  Promise.resolve().then(fn || (() => {}));
+  return Promise.resolve().then(fn || (() => {}));
 }
 
-function createOnMounted(queue) {
-  return (fn) => {
-    if (typeof fn === 'function') queue.push(fn);
+function defineComponent(options) {
+  return options;
+}
+
+function createLifecycle(queues) {
+  return {
+    onMounted: (fn) => { if (typeof fn === 'function') queues.mount.push(fn); },
+    onUnmounted: (fn) => { if (typeof fn === 'function') queues.unmount.push(fn); },
   };
 }
 
@@ -243,6 +248,7 @@ function renderTemplate(template, ctx, container, mountQueue = []) {
 }
 
 const KEY_ALIAS = { enter: 'Enter', tab: 'Tab', esc: 'Escape', space: ' ' };
+const EVENT_MODIFIERS = { prevent: (e) => e.preventDefault(), stop: (e) => e.stopPropagation() };
 function bindEvents(container, ctx) {
   ['click', 'input', 'keydown', 'keyup', 'change', 'submit'].forEach((name) => {
     container.querySelectorAll('*').forEach((el) => {
@@ -251,9 +257,12 @@ function bindEvents(container, ctx) {
       const handler = attr.value;
       const fn = ctx[handler];
       if (typeof fn !== 'function') return;
-      const mod = attr.name.includes('.') ? attr.name.split('.')[1] : null;
+      const mods = attr.name.includes('.') ? attr.name.split('.').slice(1) : [];
       el.addEventListener(name, (e) => {
-        if (mod && KEY_ALIAS[mod] !== undefined && e.key !== KEY_ALIAS[mod]) return;
+        if (mods.includes('self') && e.target !== el) return;
+        const keyMod = mods.find((m) => KEY_ALIAS[m] !== undefined);
+        if (keyMod && e.key !== KEY_ALIAS[keyMod]) return;
+        mods.forEach((m) => { if (EVENT_MODIFIERS[m]) EVENT_MODIFIERS[m](e); });
         fn(e);
       });
     });
@@ -268,11 +277,16 @@ function createApp(options) {
       const el = typeof selector === 'string' ? document.querySelector(selector) : selector;
       if (!el) throw new Error('Mount target not found');
       const mountQueue = [];
-      const api = { onMounted: createOnMounted(mountQueue) };
+      const queues = { mount: [], unmount: [] };
+      const api = createLifecycle(queues);
       const setupResult = typeof setup === 'function' ? setup(api) : {};
       const ctx = { ...setupResult };
-      if (template) renderTemplate(template, ctx, el, mountQueue);
-      return { el, ctx };
+      if (template) renderTemplate(template, ctx, el, queues.mount);
+      return {
+        el,
+        ctx,
+        unmount: () => queues.unmount.forEach((f) => f()),
+      };
     },
     component(name, def) {
       components[name] = def;
@@ -283,10 +297,11 @@ function createApp(options) {
 
 // Export
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { createApp, ref, computed, reactive, effect, watch, watchEffect, toRefs, nextTick };
+  module.exports = { createApp, defineComponent, ref, computed, reactive, effect, watch, watchEffect, toRefs, nextTick };
 } else {
   window.Aura = {
     createApp,
+    defineComponent,
     ref,
     computed,
     reactive,

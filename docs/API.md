@@ -102,11 +102,44 @@ nextTick(() => console.log(dom.textContent));
 
 ## 模板事件修饰符
 
-键盘事件支持修饰符：`@keydown.enter`、`@keydown.esc`、`@keydown.tab`、`@keydown.space`。
+**键盘**：`@keydown.enter`、`@keydown.esc`、`@keydown.tab`、`@keydown.space`  
+**通用**：`@click.prevent`（阻止默认）、`@click.stop`（阻止冒泡）、`@click.self`（仅自身触发）
 
 ```html
-<input @keydown.enter="submit" />
+<form @submit.prevent="onSubmit">
+  <input @keydown.enter="submit" />
+</form>
 ```
+
+---
+
+## defineComponent(options)
+
+封装组件选项，便于复用与类型推导（可选）：
+
+```js
+const MyCounter = defineComponent({
+  template: `...`,
+  setup() { return {}; },
+});
+createApp(MyCounter).mount('#app');
+```
+
+---
+
+## 生命周期
+
+`setup({ onMounted, onUnmounted })`：
+
+```js
+setup({ onMounted, onUnmounted }) {
+  const tid = setInterval(() => {}, 1000);
+  onUnmounted(() => clearInterval(tid));
+  return {};
+}
+```
+
+`app.unmount()` 会触发所有 `onUnmounted` 回调。
 
 ---
 
