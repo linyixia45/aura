@@ -337,13 +337,12 @@ function createApp(options) {
 }
 
 // Export
-if (typeof module !== 'undefined' && module.exports) {
-  const version = '0.1.0';
+const version = '0.1.0';
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { version, createApp, defineComponent, ref, computed, reactive, unref, isRef, shallowRef, effect, watch, watchEffect, toRefs, nextTick };
 } else {
   window.Aura = {
-    version: '0.1.0',
+    version,
     createApp,
     defineComponent,
     ref,
