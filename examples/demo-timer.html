@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aura - 计时器</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../src/design-tokens.css" />
+  <link rel="stylesheet" href="../src/components.css" />
+  <style>
+    .timer-display { font-family: var(--aura-font-mono); font-size: 3rem; text-align: center; margin: 1.5rem 0; }
+    .timer-controls { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
+  </style>
+</head>
+<body class="aura-app">
+  <div id="app" style="max-width: 480px; margin: 0 auto; padding: 2rem;"></div>
+
+  <script src="../src/aura.js"></script>
+  <script>
+    const { createApp, ref, computed, onMounted } = window.Aura;
+
+    createApp({
+      template: `
+        <div>
+          <h1 class="aura-title aura-title-lg">计时器</h1>
+          <p style="color: var(--aura-muted); margin-bottom: 1rem;">v-for (item, index)、computed、onMounted</p>
+
+          <div class="aura-card" style="text-align: center;">
+            <div class="timer-display">{{ display }}</div>
+            <div class="timer-controls">
+              <button class="aura-btn aura-btn-primary" @click="start" :disabled="running">开始</button>
+              <button class="aura-btn" @click="pause" :disabled="!running">暂停</button>
+              <button class="aura-btn" @click="reset">重置</button>
+            </div>
+          </div>
+
+          <div class="aura-card" style="margin-top: 1.5rem;">
+            <h2 class="aura-title aura-title-md">记录</h2>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+              <li v-for="(item, idx) in laps" style="padding: 0.5rem 0; border-bottom: 1px solid var(--aura-border);">
+                #{{ idx + 1 }} {{ item }}
+              </li>
+            </ul>
+            <p v-if="laps.length === 0" style="color: var(--aura-muted);">还没开始计时，点「开始」试试</p>
+            <button class="aura-btn aura-btn-sm" @click="lap" :disabled="!running" style="margin-top: 0.5rem;">记录当前</button>
+          </div>
+        </div>
+      `,
+      setup() {
+        const sec = ref(0);
+        const running = ref(false);
+        const laps = ref([]);
+        let tid = null;
+
+        const display = computed(() => {
+          const m = Math.floor(sec.value / 60);
+          const s = sec.value % 60;
+          return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        });
+
+        function start() {
+          if (running.value) return;
+          running.value = true;
+          tid = setInterval(() => sec.value++, 1000);
+        }
+
+        function pause() {
+          running.value = false;
+          if (tid) clearInterval(tid);
+        }
+
+        function reset() {
+          pause();
+          sec.value = 0;
+          laps.value = [];
+        }
+
+        function lap() {
+          if (running.value) laps.value = [...laps.value, display.value];
+        }
+
+
+        return {
+          display,
+          running,
+          laps,
+          start,
+          pause,
+          reset,
+          lap,
+        };
+      },
+    }).mount('#app');
+  </script>
+</body>
+</html>

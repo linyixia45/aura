@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aura - 搜索过滤</title>
+  <link rel="stylesheet" href="../src/design-tokens.css" />
+  <link rel="stylesheet" href="../src/components.css" />
+</head>
+<body class="aura-app">
+  <div id="app" style="max-width: 480px; margin: 0 auto; padding: 2rem;" v-cloak></div>
+  <script src="../src/aura.js"></script>
+  <script>
+    const { createApp, ref, computed } = window.Aura;
+    createApp({
+      template: `
+        <div>
+          <h1 class="aura-title aura-title-lg">搜索过滤</h1>
+          <input class="aura-input" v-model="keyword" placeholder="输入关键词..." style="margin-bottom: 1rem;" />
+          <ul style="list-style: none; padding: 0;">
+            <li v-for="item in filtered" style="padding: 0.5rem; border-bottom: 1px solid var(--aura-border);">
+              {{ item }}
+            </li>
+          </ul>
+          <p v-show="filtered.length === 0" style="color: var(--aura-muted);">没找到匹配的，换个词试试？</p>
+        </div>
+      `,
+      setup() {
+        const keyword = ref('');
+        const list = ['苹果', '香蕉', '橙子', '葡萄', '西瓜', '草莓'];
+        const filtered = computed(() => {
+          const k = keyword.value.toLowerCase();
+          return k ? list.filter((x) => x.includes(k)) : list;
+        });
+        return { keyword, filtered };
+      },
+    }).mount('#app');
+  </script>
+</body>
+</html>

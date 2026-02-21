@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aura - 杂志风 · 大胆排版</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../src/design-tokens.css" />
+  <link rel="stylesheet" href="../src/components.css" />
+  <style>
+    .feature-card { padding: var(--aura-space-lg); border-left: 3px solid var(--aura-fg); background: var(--aura-mist); }
+    .feature-card h3 { font-family: var(--aura-font-serif); font-size: var(--aura-display-md); margin-bottom: 0.5rem; }
+    .feature-card p { color: var(--aura-muted); font-size: 0.95rem; margin: 0; }
+  </style>
+</head>
+<body class="aura-app" data-aura-theme="editorial">
+  <div id="app" v-cloak></div>
+  <script src="../src/aura.js"></script>
+  <script>
+    const { createApp, ref } = window.Aura;
+    createApp({
+      template: `
+        <div>
+          <header class="aura-hero">
+            <h1 class="aura-display aura-display-xl">{{ title }}</h1>
+            <p class="aura-hero-tagline">{{ tagline }}</p>
+            <div style="margin-top: 2rem;">
+              <button class="aura-btn aura-btn-primary aura-btn-lg" @click="count++">开始</button>
+            </div>
+          </header>
+
+          <section class="aura-section aura-grid aura-grid-2">
+            <div class="feature-card">
+              <h3>大胆排版</h3>
+              <p>参考 Awwwards 2025 趋势：超大标题、网格布局、杂志编辑风</p>
+            </div>
+            <div class="feature-card">
+              <h3>反 AI 味</h3>
+              <p>无紫色渐变、无 Inter，使用 Source Serif + DM Sans，有辨识度</p>
+            </div>
+            <div class="feature-card">
+              <h3>流体字号</h3>
+              <p>clamp() 响应式大标题，适配各类屏幕</p>
+            </div>
+            <div class="feature-card">
+              <h3>主题切换</h3>
+              <p>data-aura-theme="editorial" | monochrome | dark | sharp</p>
+            </div>
+          </section>
+
+          <footer style="text-align: center; padding: 2rem; color: var(--aura-muted); font-size: 0.9rem;">
+            <a class="aura-link" href="../">← 返回首页</a>
+          </footer>
+        </div>
+      `,
+      setup() {
+        const title = ref('墨迹');
+        const tagline = ref('专注写作 · 大胆排版 · 反 AI 味');
+        const count = ref(0);
+        return { title, tagline, count };
+      },
+    }).mount('#app');
+  </script>
+</body>
+</html>

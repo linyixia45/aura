@@ -1,0 +1,56 @@
+# GitHub 仓库设置（提升 Star 与曝光）
+
+在仓库页面点击右侧 **About** 旁的齿轮图标，填写以下内容：
+
+## Description（简介，会显示在搜索与列表里）
+
+```
+Vue-like reactive JS framework with anti-AI-slop design. No purple gradients, no Inter font. Zero build, <5KB.
+```
+
+或中文版：
+```
+类似 Vue 的轻量响应式框架，反「AI 味」设计系统。零构建、零依赖，让 AI 生成的页面不再千篇一律。
+```
+
+## Website
+
+部署后填写（需先启用 Pages）：
+```
+https://linyixia45.github.io/aura/
+```
+
+**启用 GitHub Pages**：Settings → Pages → Source 选择 **GitHub Actions**。推送到 master 后会自动部署。
+
+## Topics（标签，提升搜索发现）
+
+建议添加：
+```
+vue
+javascript
+framework
+reactive
+design-system
+frontend
+ai
+lightweight
+```
+
+## 启用 GitHub Pages
+
+1. 推送后，进入 **Settings → Pages**
+2. **Source** 选择 **GitHub Actions**
+3. 等待 workflow 完成，访问 `https://linyixia45.github.io/aura/`
+
+## 启用 GitHub Pages（如部署失败请检查）
+
+1. 打开 **Settings → Pages**
+2. 在 **Build and deployment** 下，**Source** 选择 **Deploy from a branch**
+3. **Branch** 选择 `gh-pages`，目录选 `/ (root)`，保存
+4. 本 workflow 使用 peaceiris/actions-gh-pages，会将站点推送到 gh-pages 分支
+
+## 其他建议
+
+- 在 **Settings → General** 中勾选 **Issues**、**Discussions**（可选）
+- 发一条 **Release**（v0.1.0），附上简短更新说明
+- 在相关社区（如掘金、V2EX、知乎）分享时附上仓库链接与使用场景

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>墨迹 — 轻量写作工具</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../src/design-tokens.css" />
+  <link rel="stylesheet" href="../src/components.css" />
+  <style>
+    .hero { text-align: center; padding: 4rem 1.5rem; max-width: 600px; margin: 0 auto; }
+    .hero h1 { font-family: var(--aura-font-serif); font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--aura-palette-ink); }
+    .hero .tagline { color: var(--aura-muted); font-size: 1.1rem; margin-bottom: 2rem; }
+    .features { display: grid; gap: 1.5rem; max-width: 720px; margin: 0 auto 3rem; padding: 0 1.5rem; }
+    .feature { padding: var(--aura-space-lg); border-left: 3px solid var(--aura-accent); background: var(--aura-mist); }
+    .feature h3 { font-family: var(--aura-font-serif); font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .feature p { color: var(--aura-muted); font-size: 0.95rem; margin: 0; }
+    .cta-wrap { text-align: center; padding: 2rem; }
+    .cta-wrap .aura-btn { margin: 0 0.5rem 0.5rem 0; }
+  </style>
+</head>
+<body class="aura-app">
+  <noscript>请启用 JavaScript 以查看此页面</noscript>
+  <div id="app"></div>
+
+  <script src="../src/aura.js"></script>
+  <script>
+    if (typeof window.Aura === 'undefined') {
+      document.getElementById('app').innerHTML = '<div style="padding:2rem;max-width:480px;margin:0 auto;"><p style="color:var(--aura-muted);">脚本没加载好。examples 需要本地服务，试试 <code>npm start</code> 或 <code>npx serve .</code>，再访问本页。</p><p><a href="https://github.com/linyixia45/aura" class="aura-link">README</a></p></div>';
+    } else {
+    const { createApp, ref } = window.Aura;
+
+    createApp({
+      template: `
+        <div>
+          <header class="hero">
+            <h1>墨迹</h1>
+            <p class="tagline">专注写作的轻量工具 · 大地色、墨香、无干扰</p>
+            <div class="cta-wrap">
+              <button class="aura-btn aura-btn-primary aura-btn-lg" @click="incrementCta">立即开始</button>
+              <button class="aura-btn aura-btn-lg" @click="togglePreview">预览模式</button>
+            </div>
+            <p v-show="ctaCount > 0" style="color: var(--aura-muted); margin-top: 1rem;">已点击 {{ ctaCount }} 次 · 反 AI 味设计</p>
+          </header>
+
+          <section class="features">
+            <div class="aura-card feature">
+              <h3>极简界面</h3>
+              <p>无紫色渐变、无 Inter 字体，采用 Source Serif 与 DM Sans，阅读更舒适</p>
+            </div>
+            <div class="aura-card feature">
+              <h3>本地优先</h3>
+              <p>数据存于本地，支持 Markdown 导出，隐私可控</p>
+            </div>
+            <div class="aura-card feature">
+              <h3>专注模式</h3>
+              <p>可选暗色 / 锐角主题，减少视觉干扰</p>
+            </div>
+          </section>
+
+          <div class="cta-wrap">
+            <input class="aura-input" v-model="email" placeholder="输入邮箱获取内测" style="max-width: 280px; display: inline-block; margin-right: 0.5rem;" />
+            <button class="aura-btn aura-btn-primary" @click="submit">订阅</button>
+            <p v-show="submitted" class="aura-alert aura-alert-success" style="margin-top: 1rem; max-width: 400px; margin-left: auto; margin-right: auto;">已提交 {{ email }}，感谢订阅</p>
+          </div>
+
+          <footer style="text-align: center; padding: 2rem; color: var(--aura-muted); font-size: 0.9rem;">
+            <a class="aura-link" href="https://github.com/linyixia45/aura">Powered by Aura</a>
+          </footer>
+        </div>
+      `,
+      setup() {
+        const ctaCount = ref(0);
+        const email = ref('');
+        const submitted = ref(false);
+
+        return {
+          ctaCount,
+          email,
+          submitted,
+          incrementCta: () => ctaCount.value++,
+          togglePreview: () => { /* 示例 */ },
+          submit: () => {
+            if (email.value.trim()) {
+              submitted.value = true;
+            }
+          },
+        };
+      },
+    }).mount('#app');
+    } // end else
+  </script>
+</body>
+</html>

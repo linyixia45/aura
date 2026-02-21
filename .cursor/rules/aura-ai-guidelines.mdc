@@ -1,0 +1,55 @@
+---
+description: Aura 框架 AI 指南 - 生成 Aura 页面时请先阅读 AI.md
+globs: ["**/*.html", "**/*.vue", "**/aura/**", "**/examples/**"]
+---
+
+# Aura 框架 · AI 指南
+
+生成 Aura 相关代码前，**请先阅读项目根目录的 `AI.md`**，内含完整 API、模板语法与常见错误。
+
+## 核心约束
+
+1. **事件**：`@click="handler"` 支持函数名，也支持内联 `@click="count++"` / `@click="count--"`
+2. **路径**：资源用 `/src/`，不要 `../src/`
+3. **设计**：使用 `aura-*` 类与设计令牌，禁止紫色渐变、Inter 字体
+4. **文案**：像人说话，别冷冰冰。空状态可以写「这里还没什么」「加一条试试？」而不是「暂无数据」
+
+## 最小模板
+
+```html
+<link rel="stylesheet" href="/src/design-tokens.css" />
+<link rel="stylesheet" href="/src/components.css" />
+<script src="/src/aura.js"></script>
+<div id="app"></div>
+<script>
+  const { createApp, ref } = window.Aura;
+  createApp({
+    template: `<div>{{ msg }}</div>`,
+    setup() { return { msg: ref('Hi') }; },
+  }).mount('#app');
+</script>
+```
+
+## 风格推荐（根据项目类型自动选）
+
+用户描述项目时，按 **AI.md 第八节「AI 风格推荐」** 选择主题并写出样式：
+
+| 项目类型 | 主题 | 组件 |
+|----------|------|------|
+| 作品集 / 个人主页 | `data-aura-theme="editorial"` | `aura-display aura-display-xl`、`aura-hero`、`aura-grid-2` |
+| 品牌 / 产品落地页 | `monochrome` 或默认 | `aura-hero`、`aura-section`、`aura-card` |
+| 仪表盘 / 后台 | `monochrome` / `dark` | `aura-grid`、`aura-card`、`aura-tabs` |
+| 博客 / 文章站 | 默认 | `aura-title`、`aura-section` |
+| 营销 / 活动页 | `editorial` | `aura-display`、`aura-hero-tagline`、CTA 突出 |
+
+未指定类型时默认用 `aura-app` 大地色。
+
+## 渐进式
+
+- 无 template 时用挂载点 innerHTML 作为模板，适合增强现有 HTML（类似 Vue In-DOM）
+
+## 引用
+
+- **AI.md** - 完整 AI 使用说明（含设计配方、风格推荐）
+- **docs/QUICK_REFERENCE.md** - 一页速查
+- **docs/API.md** - API 参考

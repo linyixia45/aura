@@ -1,0 +1,99 @@
+/**
+ * Aura Design Tokens - 反「AI 味」设计令牌
+ * 刻意避开：紫色渐变、Inter、过圆角、过度阴影
+ */
+
+/* v-cloak：防止未编译模板闪烁 */
+[v-cloak] { display: none !important; }
+
+:root {
+  /* === 颜色 - 避免紫色/蓝紫渐变 === */
+  --aura-palette-ink: #1a1a1a;
+  --aura-palette-parchment: #f5f0e8;
+  --aura-palette-warm: #c17f59;
+  --aura-palette-forest: #2d4a3e;
+  --aura-palette-stone: #6b6b6b;
+  --aura-palette-mist: #e8e4dc;
+  --aura-palette-rust: #8b4513;
+  --aura-palette-sage: #87ae73;
+  --aura-palette-indigo-deep: #2c3e50;
+  --aura-palette-coral: #e07a5f;
+
+  /* 语义色 */
+  --aura-bg: var(--aura-palette-parchment);
+  --aura-fg: var(--aura-palette-ink);
+  --aura-muted: var(--aura-palette-stone);
+  --aura-accent: var(--aura-palette-forest);
+  --aura-accent-hover: #3d5f4f;
+  --aura-border: #d4cfc4;
+
+  /* === 字体 - 非 Inter === */
+  --aura-font-serif: 'Source Serif 4', 'Noto Serif SC', Georgia, serif;
+  --aura-font-sans: 'DM Sans', 'Source Han Sans SC', system-ui, sans-serif;
+  --aura-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* === 圆角 - 克制，非一律 8px === */
+  --aura-radius-sm: 2px;
+  --aura-radius-md: 4px;
+  --aura-radius-lg: 6px;
+  --aura-radius-none: 0;
+
+  /* === 阴影 - 轻量，非大 blur === */
+  --aura-shadow-sm: 0 1px 2px rgba(26, 26, 26, 0.06);
+  --aura-shadow-md: 0 2px 6px rgba(26, 26, 26, 0.08);
+  --aura-shadow-lg: 0 4px 12px rgba(26, 26, 26, 0.1);
+
+  /* === 间距 === */
+  --aura-space-xs: 4px;
+  --aura-space-sm: 8px;
+  --aura-space-md: 16px;
+  --aura-space-lg: 24px;
+  --aura-space-xl: 32px;
+
+  /* === 大标题 / Display 字号（流体排版，反 AI 味） === */
+  --aura-display-xl: clamp(2rem, 5vw + 1.5rem, 3.5rem);
+  --aura-display-lg: clamp(1.75rem, 4vw + 1rem, 2.5rem);
+  --aura-display-md: clamp(1.25rem, 2.5vw + 0.75rem, 1.75rem);
+}
+
+/* 主题变体 */
+[data-aura-theme="dark"] {
+  --aura-bg: #1a1a1a;
+  --aura-fg: #e8e4dc;
+  --aura-muted: #9a9a9a;
+  --aura-accent: #87ae73;
+  --aura-accent-hover: #9fc289;
+  --aura-border: #3a3a3a;
+}
+
+[data-aura-theme="sharp"] {
+  --aura-radius-sm: 0;
+  --aura-radius-md: 0;
+  --aura-radius-lg: 0;
+}
+
+/* 杂志 / 编辑风：大胆排版、强对比 */
+[data-aura-theme="editorial"] {
+  --aura-font-sans: 'DM Sans', 'Source Han Sans SC', system-ui, sans-serif;
+  --aura-font-serif: 'Source Serif 4', 'Noto Serif SC', Georgia, serif;
+  --aura-display-xl: clamp(2.25rem, 6vw + 1.5rem, 4rem);
+  --aura-display-lg: clamp(1.75rem, 4vw + 1rem, 2.75rem);
+  --aura-display-md: clamp(1.25rem, 3vw + 0.5rem, 1.875rem);
+  --aura-radius-sm: 0;
+  --aura-radius-md: 0;
+  --aura-radius-lg: 0;
+}
+
+/* 极简单色：Igloo/Opal 风格，克制双色 */
+[data-aura-theme="monochrome"] {
+  --aura-palette-ink: #383e4e;
+  --aura-palette-parchment: #f5f5f7;
+  --aura-palette-stone: #6b6f7d;
+  --aura-palette-mist: #e8e9ec;
+  --aura-bg: var(--aura-palette-parchment);
+  --aura-fg: var(--aura-palette-ink);
+  --aura-muted: var(--aura-palette-stone);
+  --aura-accent: var(--aura-palette-ink);
+  --aura-accent-hover: #4a5166;
+  --aura-border: #d4d6dc;
+}

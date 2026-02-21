@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aura 入门</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/design-tokens.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/components.css" />
+</head>
+<body class="aura-app">
+  <div id="app" v-cloak></div>
+  <script src="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/aura.js"></script>
+  <script>
+    if (typeof window.Aura === 'undefined') {
+      document.getElementById('app').innerHTML = '<div style="max-width:400px;margin:2rem auto;padding:1.5rem;color:var(--aura-muted, #666);"><p>哎呀，脚本没加载成功。</p><p>可能是网络问题，刷新试试？或者检查一下 CDN 是否可访问。</p><p><a href="https://github.com/linyixia45/aura">看看 README</a></p></div>';
+    } else {
+    const { createApp, ref } = window.Aura;
+    createApp({
+      template: `
+        <div style="max-width: 400px; margin: 2rem auto; padding: 1rem;">
+          <h1 class="aura-title aura-title-lg">Aura 入门</h1>
+          <p style="color: var(--aura-muted);">复制这个文件就能跑起来，用 CDN 不用装任何东西。</p>
+          <p style="font-size: 1.5rem;">{{ count }}</p>
+          <button class="aura-btn aura-btn-primary" @click="count++">+1</button>
+          <button class="aura-btn" @click="count--">-1</button>
+        </div>
+      `,
+      setup() {
+        return { count: ref(0) };
+      },
+    }).mount('#app');
+    }
+  </script>
+</body>
+</html>

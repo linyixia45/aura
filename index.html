@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aura - Vue-like 轻量框架 · 反 AI 味设计</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="src/design-tokens.css" />
+  <link rel="stylesheet" href="src/components.css" />
+  <style>
+    body.aura-app { padding: 3rem 1.5rem; max-width: 720px; margin: 0 auto; }
+    h1 { font-family: var(--aura-font-serif); font-size: 2rem; margin-bottom: 0.5rem; }
+    .tagline { color: var(--aura-muted); margin-bottom: 2rem; font-size: 1.1rem; }
+    .demo-links { display: flex; flex-direction: column; gap: 0.75rem; }
+    .demo-links a { display: block; padding: 1rem 1.25rem; background: var(--aura-bg); border: 1px solid var(--aura-border); border-radius: var(--aura-radius-lg); color: var(--aura-fg); text-decoration: none; transition: border-color .15s; }
+    .demo-links a:hover { border-color: var(--aura-accent); }
+    .demo-links strong { display: block; margin-bottom: 0.25rem; }
+    .demo-links span { color: var(--aura-muted); font-size: 0.9rem; }
+    .footer { margin-top: 2rem; color: var(--aura-muted); font-size: 0.9rem; }
+    .footer a { color: var(--aura-accent); }
+  </style>
+</head>
+<body class="aura-app">
+  <h1>Aura</h1>
+  <p class="tagline">Vue-like 轻量响应式框架 · 反「AI 味」设计系统</p>
+
+  <div class="aura-card" style="margin-bottom: 1.5rem;">
+    <h2 class="aura-title aura-title-md">在线示例</h2>
+    <p style="margin-bottom: 0.5rem;"><a class="aura-link" href="/starter.html">starter.html</a> — 零配置入门，复制即用</p>
+    <div class="demo-links">
+      <a href="examples/index.html">
+        <strong>基础示例</strong>
+        <span>计数器 + 待办列表（v-model、v-for、v-if）</span>
+      </a>
+      <a href="examples/demo-full.html">
+        <strong>完整示例</strong>
+        <span>v-show、:class、onMounted、标签页</span>
+      </a>
+      <a href="examples/demo-watch.html">
+        <strong>watch / watchEffect</strong>
+        <span>响应式侦听 API</span>
+      </a>
+      <a href="examples/demo-components.html">
+        <strong>组件示例</strong>
+        <span>badge、alert、link、按钮尺寸</span>
+      </a>
+      <a href="examples/demo-timer.html">
+        <strong>计时器</strong>
+        <span>computed、v-for (item, index)、:disabled</span>
+      </a>
+      <a href="examples/demo-search.html">
+        <strong>搜索过滤</strong>
+        <span>v-model、computed、v-for</span>
+      </a>
+      <a href="examples/demo-landing.html">
+        <strong>静态落地页</strong>
+        <span>墨迹 · 写作工具展示页</span>
+      </a>
+      <a href="examples/demo-editorial.html">
+        <strong>杂志风 · 大胆排版</strong>
+        <span>editorial 主题、display 大标题、网格布局</span>
+      </a>
+      <a href="examples/demo-v-if-else.html">
+        <strong>v-if / v-else-if / v-else</strong>
+        <span>条件链、分数区间示例</span>
+      </a>
+      <a href="examples/demo-multi-component.html">
+        <strong>多组件</strong>
+        <span>props、slot、PascalCase / kebab-case</span>
+      </a>
+      <a href="examples/demo-progressive.html">
+        <strong>渐进式 · 增强现有 HTML</strong>
+        <span>无 template，用 innerHTML 作为模板</span>
+      </a>
+      <a href="examples/demo-stitched.html">
+        <strong>缝合特性</strong>
+        <span>provide/inject、ref、v-once、v-for :key</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="https://github.com/linyixia45/aura">GitHub</a> ·
+    <a href="https://github.com/linyixia45/aura#readme">README</a>
+  </div>
+</body>
+</html>

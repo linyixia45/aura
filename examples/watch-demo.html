@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watch / watchEffect 示例</title>
+  <link rel="stylesheet" href="../src/design-tokens.css" />
+  <link rel="stylesheet" href="../src/components.css" />
+</head>
+<body class="aura-app">
+  <div id="app" style="max-width: 480px; margin: 0 auto; padding: 2rem;"></div>
+  <script src="../src/aura.js"></script>
+  <script>
+    const { createApp, ref, watch, watchEffect } = window.Aura;
+
+    createApp({
+      template: `
+        <div class="aura-card">
+          <h2 class="aura-title aura-title-md">watch / watchEffect</h2>
+          <input class="aura-input" v-model="name" placeholder="输入姓名" style="margin-bottom: 1rem;" />
+          <p>输入: {{ name }}</p>
+          <p style="color: var(--aura-muted); font-size: 0.9rem;">查看控制台，watch 会在 name 变化时输出</p>
+        </div>
+      `,
+      setup({ onMounted }) {
+        const name = ref('');
+        watch(() => name.value, (val, prev) => {
+          console.log('watch:', prev, '->', val);
+        });
+        watchEffect(() => {
+          console.log('watchEffect: name =', name.value);
+        });
+        return { name };
+      },
+    }).mount('#app');
+  </script>
+</body>
+</html>
