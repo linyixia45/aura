@@ -1,32 +1,47 @@
+<p align="center">
+  <img src="https://img.shields.io/github/stars/linyixia45/aura?style=social" alt="Stars" />
+  <img src="https://img.shields.io/github/license/linyixia45/aura" alt="License" />
+  <img src="https://img.shields.io/badge/size-%3C5kb-blue" alt="Size" />
+</p>
+
 # Aura
 
-一个**类似 Vue** 的轻量响应式框架，内置**反「AI 味」**设计系统，用于减少 AI 生成网页的千篇一律感（紫色渐变、Inter 字体、过圆角等）。
+> **Vue-like 轻量响应式框架**，内置反「AI 味」设计系统。零构建、零依赖，让 AI 生成的页面不再千篇一律。
 
-## 特性
+[English](#english) | 简体中文
 
-- **Vue 式 API**：`createApp`、`ref`、`computed`、`setup`
-- **模板语法**：`{{ }}`、`v-if`、`v-for`、`:attr`、`@event`
-- **设计令牌**：大地色/墨色/森林色 palette，DM Sans / Source Serif 字体，克制圆角与阴影
+---
 
-## 安装 / 引用
+## 为什么做 Aura？
 
-```bash
-# 克隆
-git clone https://github.com/YOUR_USERNAME/aura.git
+AI 生成的网页总是一个味道：紫色渐变、Inter 字体、8px 圆角、大 blur 阴影……**审美疲劳**。
 
-# 或作为 submodule
-git submodule add https://github.com/YOUR_USERNAME/aura.git lib/aura
-```
+Aura 内置一套**刻意避开这些 cliché** 的设计令牌（大地色、墨色、森林绿、DM Sans、Source Serif），并采用 **Vue 式 API**，上手即用。适合快速原型、小项目，或作为 AI 生成代码的首选框架。
 
-## 快速开始
+---
+
+## ✨ 特性
+
+| 特性 | 说明 |
+|------|------|
+| 🎯 **Vue 式 API** | `ref`、`computed`、`setup`、`createApp`，会 Vue 就会 Aura |
+| 📝 **完整模板语法** | `{{ }}`、`v-if`、`v-show`、`v-for`、`v-model`、`:class`、`:style`、`@event` |
+| 🎨 **反 AI 味设计** | 大地色/墨色 palette，非 Inter 字体，克制圆角与阴影 |
+| 📦 **零构建零依赖** | 纯 ES 模块，直接 `<script>` 引用或 CDN |
+| ⚡ **轻量** | 核心 < 5KB，适合嵌入与快速迭代 |
+
+---
+
+## 🚀 快速开始
+
+### CDN（推荐）
 
 ```html
-<link rel="stylesheet" href="src/design-tokens.css" />
-<link rel="stylesheet" href="src/components.css" />
-<script src="src/aura.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/design-tokens.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/components.css" />
+<script src="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/aura.js"></script>
 
 <div id="app"></div>
-
 <script>
   const { createApp, ref } = window.Aura;
 
@@ -38,7 +53,7 @@ git submodule add https://github.com/YOUR_USERNAME/aura.git lib/aura
         <button class="aura-btn aura-btn-primary" @click="increment">+1</button>
       </div>
     `,
-    setup(api) {
+    setup() {
       const title = ref('Hello Aura');
       const count = ref(0);
       return {
@@ -51,61 +66,75 @@ git submodule add https://github.com/YOUR_USERNAME/aura.git lib/aura
 </script>
 ```
 
-## 模板指令
+### Git 克隆
+
+```bash
+git clone -b v0.1.0 https://github.com/linyixia45/aura.git
+```
+
+---
+
+## 📖 模板指令
 
 | 指令 | 示例 |
 |------|------|
 | 插值 | `{{ expr }}` |
-| 条件 | `v-if="expr"` |
-| 显示 | `v-show="expr"` |
+| 条件 | `v-if="expr"` / `v-show="expr"` |
 | 列表 | `v-for="item in list"` |
 | 双向绑定 | `v-model="ref"` |
-| 绑定 | `:checked="bool"` `:class="{ active: x }"` `:style="{ color: c }"` |
-| 事件 | `@click="handler"` `@input="onInput"` |
+| 绑定 | `:checked` `:class` `:style` `:href` |
+| 事件 | `@click` `@input` `@keydown` 等 |
 
-## 生命周期
+---
 
-`setup(api)` 接收 `{ onMounted }`，用于 DOM 挂载后执行：
+## 🎨 设计令牌
 
-```js
-setup({ onMounted }) {
-  onMounted(() => console.log('mounted'));
-  return {};
-}
+避免 AI 味的配色与字体，开箱即用：
+
+```css
+--aura-bg / --aura-fg    /* 背景 / 前景 */
+--aura-accent            /* 强调色 */
+--aura-font-sans         /* DM Sans */
+--aura-font-serif        /* Source Serif 4 */
+--aura-radius-md         /* 4px 圆角 */
+--aura-shadow-md         /* 轻量阴影 */
 ```
 
-## 设计令牌
+主题：`data-aura-theme="dark"` | `"sharp"`
 
-在 CSS 中使用 `var(--aura-*)` 变量，例如：
+---
 
-- `--aura-bg` / `--aura-fg`：背景 / 前景色
-- `--aura-accent`：强调色
-- `--aura-font-sans` / `--aura-font-serif`：字体
-- `--aura-radius-md`：圆角
-- `--aura-shadow-md`：阴影
-
-主题：`data-aura-theme="dark"` 或 `"sharp"`。
-
-## 运行示例
-
-```bash
-# 使用任意静态服务器
-npx serve .
-# 或
-python -m http.server 8080
-```
-
-然后打开 `http://localhost:8080/examples/index.html`。
-
-## 文件结构
+## 📁 项目结构
 
 ```
+aura/
 ├── src/
-│   ├── aura.js          # 核心框架
-│   ├── design-tokens.css # 设计令牌
-│   └── components.css   # 基础组件样式
+│   ├── aura.js           # 核心 (~4KB)
+│   ├── design-tokens.css
+│   └── components.css
 ├── examples/
-│   ├── index.html       # 基础示例
-│   └── demo-full.html   # 完整示例（v-model/v-show/onMounted/标签页）
+│   ├── index.html        # 计数器 + 待办
+│   └── demo-full.html    # v-model / v-show / 标签页
 └── README.md
 ```
+
+---
+
+## 🔧 本地运行示例
+
+```bash
+npx serve .
+# 访问 http://localhost:3000/examples/index.html
+```
+
+---
+
+## 📄 License
+
+MIT
+
+---
+
+## <a name="english"></a>English
+
+**Aura** is a Vue-like reactive framework with an **anti-AI-slop** design system. No purple gradients, no Inter font—built-in design tokens and components that steer AI-generated UIs away from the usual clichés. Zero build, zero deps, < 5KB. [Get started](#-快速开始) above.

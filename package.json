@@ -1,12 +1,23 @@
 {
   "name": "aura-framework",
   "version": "0.1.0",
-  "description": "Vue-like reactive framework with anti-AI-slop design system",
+  "description": "Vue-like reactive JS framework with anti-AI-slop design. No purple gradients, no Inter font. Zero build, <5KB.",
   "main": "src/aura.js",
   "files": ["src/"],
   "repository": {
     "type": "git",
     "url": "https://github.com/linyixia45/aura.git"
   },
-  "keywords": ["vue", "framework", "reactive", "design-system"]
+  "keywords": [
+    "vue",
+    "javascript",
+    "framework",
+    "reactive",
+    "design-system",
+    "frontend",
+    "ai",
+    "lightweight",
+    "zero-dependency"
+  ],
+  "license": "MIT"
 }
