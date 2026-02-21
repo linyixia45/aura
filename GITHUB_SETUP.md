@@ -45,8 +45,9 @@ lightweight
 ## 启用 GitHub Pages（如部署失败请检查）
 
 1. 打开 **Settings → Pages**
-2. 在 **Build and deployment** 下，**Source** 选择 **GitHub Actions**
-3. 不要选 "Deploy from a branch"
+2. 在 **Build and deployment** 下，**Source** 选择 **Deploy from a branch**
+3. **Branch** 选择 `gh-pages`，目录选 `/ (root)`，保存
+4. 本 workflow 使用 peaceiris/actions-gh-pages，会将站点推送到 gh-pages 分支
 
 ## 其他建议
 
