@@ -44,6 +44,10 @@ globs: ["**/*.html", "**/*.vue", "**/aura/**", "**/examples/**"]
 
 未指定类型时默认用 `aura-app` 大地色。
 
+## 渐进式
+
+- 无 template 时用挂载点 innerHTML 作为模板，适合增强现有 HTML（类似 Vue In-DOM）
+
 ## 引用
 
 - **AI.md** - 完整 AI 使用说明（含设计配方、风格推荐）
