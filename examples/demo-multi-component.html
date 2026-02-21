@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aura - 多组件示例</title>
+  <link rel="stylesheet" href="/src/design-tokens.css" />
+  <link rel="stylesheet" href="/src/components.css" />
+</head>
+<body class="aura-app">
+  <div id="app" style="max-width: 560px; margin: 0 auto; padding: 2rem;" v-cloak></div>
+  <script src="/src/aura.js"></script>
+  <script>
+    const { createApp, ref, defineComponent } = window.Aura;
+
+    const AuraButton = defineComponent({
+      template: `<button class="aura-btn" :class="primary ? 'aura-btn-primary' : ''" @click="onClick"><slot></slot></button>`,
+      setup({ props }) {
+        return { onClick: (props && props.onClick) || (() => {}) };
+      },
+    });
+
+    const AuraCard = defineComponent({
+      template: `<div class="aura-card" style="margin-bottom: 1rem;"><h3 class="aura-title aura-title-md">{{ title }}</h3><slot></slot></div>`,
+      setup({ props }) {
+        return { title: (props && props.title) || '' };
+      },
+    });
+
+    createApp({
+      components: { AuraButton, AuraCard, 'aura-card': AuraCard },
+      template: `
+        <div>
+          <h1 class="aura-title aura-title-lg">多组件</h1>
+          <p style="color: var(--aura-muted); margin-bottom: 1.5rem;">Vue 风格：props、slot、PascalCase / kebab-case</p>
+
+          <aura-card title="按钮组件">
+            <AuraButton :onClick="handleClick">点我</AuraButton>
+            <AuraButton :primary="true" :onClick="handleClick" style="margin-left: 0.5rem;">主要按钮</AuraButton>
+          </aura-card>
+
+          <aura-card title="计数">
+            <p>点击了 {{ count }} 次</p>
+          </aura-card>
+        </div>
+      `,
+      setup() {
+        const count = ref(0);
+        return {
+          count,
+          handleClick: () => { count.value++; },
+        };
+      },
+    }).mount('#app');
+  </script>
+</body>
+</html>

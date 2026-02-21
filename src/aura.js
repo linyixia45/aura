@@ -145,6 +145,85 @@ function escapeHtml(s) {
     .replace(/'/g, '&#39;');
 }
 
+/** kebab-case → PascalCase */
+function toPascal(str) {
+  return str.replace(/-([a-z])/g, (_, c) => c.toUpperCase()).replace(/^[a-z]/, (c) => c.toUpperCase());
+}
+
+/** 从属性字符串解析 props：key="val" 与 :key="expr"，跳过指令 */
+function parseProps(attrStr, data) {
+  const props = {};
+  const skip = (k) => k.startsWith('v-') || k.startsWith('@');
+  let m;
+  const staticRe = /\s+(\w+)=["']([^"']*)["']/g;
+  while ((m = staticRe.exec(attrStr))) { if (!skip(m[1])) props[m[1]] = m[2]; }
+  const bindRe = /\s:(\w+)=["']([^"']+)["']/g;
+  while ((m = bindRe.exec(attrStr))) {
+    if (skip(m[1])) continue;
+    const v = evalExpr(m[2], data);
+    if (v !== undefined) props[m[1]] = v;
+  }
+  return props;
+}
+
+function processComponents(html, data, ctx, components, opts = {}) {
+  if (!components || !Object.keys(components).length) return html;
+  const compNames = Object.keys(components);
+  const tagToComp = {};
+  compNames.forEach((n) => { const p = n.includes('-') ? toPascal(n) : n; tagToComp[p] = components[n]; tagToComp[n] = components[n]; });
+  let id = opts.__componentId || 0;
+  const componentCtxs = opts.componentCtxs || {};
+  let out = '';
+  let lastEnd = 0;
+  const re = /<(\w+(?:-\w+)*)(\s[^>]*?)?(\s*\/?>)/g;
+  let match;
+  while ((match = re.exec(html))) {
+    const tag = match[1];
+    const attrStr = match[2] || '';
+    const closing = match[3];
+    const comp = tagToComp[tag] || tagToComp[toPascal(tag)];
+    out += html.slice(lastEnd, match.index);
+    if (!comp || !comp.template) {
+      lastEnd = re.lastIndex;
+      continue;
+    }
+    const start = match.index;
+    const isSelfClose = /\/\s*>$/.test(closing);
+    let slotContent = '';
+    let end = start + match[0].length;
+    if (!isSelfClose) {
+      const closeEnd = findElementEnd(html, start);
+      if (closeEnd !== -1) {
+        const innerStart = start + match[0].length;
+        slotContent = html.slice(innerStart, closeEnd - `</${tag}>`.length);
+        end = closeEnd;
+      }
+    }
+    const props = parseProps(attrStr, data);
+    const api = createLifecycle({ mount: [], unmount: [] });
+    const setupResult = typeof comp.setup === 'function' ? comp.setup({ ...api, props }) : {};
+    const childCtx = { ...ctx, ...props, ...setupResult };
+    componentCtxs[id] = childCtx;
+    let compTpl = comp.template.replace(/<slot\s*\/?>[\s\S]*?<\/slot>|<slot\s*\/\s*>/gi, slotContent);
+    const prefix = `__c${id}_`;
+    Object.keys(setupResult).forEach((k) => {
+      if (typeof setupResult[k] === 'function') {
+        ctx[prefix + k] = setupResult[k];
+        compTpl = compTpl.replace(new RegExp(`@(\\w+)=["']${k}["']`, 'g'), `@$1="${prefix}${k}"`);
+      }
+    });
+    id++;
+    const compData = getData(childCtx);
+    const compHtml = processTemplate(compTpl, compData, childCtx, { ...opts, components, __componentId: id, componentCtxs, skipVModel: false });
+    out += `<aura-c data-aura-cid="${id - 1}">` + compHtml + `</aura-c>`;
+    lastEnd = end;
+    re.lastIndex = end;
+  }
+  out += html.slice(lastEnd);
+  if (opts.componentCtxs) Object.assign(opts.componentCtxs, componentCtxs);
+  return out;
+}
+
 function processVFor(html, data) {
   const re = /<(\w+)([^>]*)\s+v-for="\(?(\w+)(?:\s*,\s*(\w+))?\)?\s+in\s+([^"]+)"([^>]*)>([\s\S]*?)<\/\1>/g;
   return html.replace(re, (_, tag, before, itemVar, indexVar, listExpr, after, inner) => {
@@ -311,7 +390,11 @@ function processStyle(html, data) {
 function processTemplate(template, data, ctx = {}, opts = {}) {
   let out = template.replace(/<[\s\S]*?v-pre[\s\S]*?>[\s\S]*?<\/\w+>/gi, (m) => m.replace(/\s+v-pre/g, ''));
   out = processVFor(out, data);
-  out = processVIfElse(out, data); /* v-if/v-else-if/v-else 须在插值前执行 */
+  out = processVIfElse(out, data);
+  if (opts.components && Object.keys(opts.components).length) {
+    opts.componentCtxs = opts.componentCtxs || {};
+    out = processComponents(out, data, ctx, opts.components, opts);
+  }
   if (!opts.skipVModel && ctx) out = processVModel(out, data, ctx);
   out = processVBind(out, data);
   out = processClass(out, data);
@@ -328,11 +411,12 @@ function processTemplate(template, data, ctx = {}, opts = {}) {
   return out;
 }
 
-function renderTemplate(template, ctx, container, mountQueue = []) {
+function renderTemplate(template, ctx, container, mountQueue = [], opts = {}) {
   injectVModelHandlers(template, ctx);
+  const { components = {} } = opts;
   const update = () => {
     const data = getData(ctx);
-    const html = processTemplate(template, data, ctx);
+    const html = processTemplate(template, data, ctx, { components });
     container.innerHTML = html;
     container.setAttribute('data-aura-mounted', '1');
     bindEvents(container, ctx);
@@ -392,7 +476,7 @@ function createApp(options) {
       const api = createLifecycle(queues);
       const setupResult = typeof setup === 'function' ? setup(api) : {};
       const ctx = { ...setupResult };
-      if (template) renderTemplate(template, ctx, el, queues.mount);
+      if (template) renderTemplate(template, ctx, el, queues.mount, { components });
       return {
         el,
         ctx,

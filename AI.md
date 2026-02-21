@@ -54,8 +54,27 @@
 | 事件 | `@click="fn"` | 函数名，或内联 `@click="count++"` / `@click="count--"` |
 | 修饰符 | `@click.prevent` `@click.stop` | `.prevent` `.stop` `.self` |
 | 键盘 | `@keydown.enter` | `.enter` `.esc` `.tab` `.space` |
+| 组件 | `<MyComponent />` `<my-component>` | props、slot，PascalCase 或 kebab-case |
 
-## 五、setup 参数
+## 五、组件（Vue 风格）
+
+```js
+const MyButton = defineComponent({
+  template: `<button @click="onClick"><slot></slot></button>`,
+  setup({ props }) { return { onClick: props.onClick }; },
+});
+createApp({
+  components: { MyButton },
+  template: `<MyButton :onClick="handleClick">点我</MyButton>`,
+  setup() { return { handleClick: () => {} }; },
+}).mount('#app');
+```
+
+- **PascalCase / kebab-case**：`<MyButton>` 与 `<my-button>` 均可
+- **props**：`msg="hi"` 或 `:count="n"` 传入
+- **slot**：`<slot></slot>` 占位默认插槽内容
+
+## 六、setup 参数
 
 ```js
 setup({ onMounted, onUnmounted }) {
@@ -65,7 +84,7 @@ setup({ onMounted, onUnmounted }) {
 }
 ```
 
-## 六、设计约定（反 AI 味）
+## 七、设计约定（反 AI 味）
 
 **禁止**：紫色/蓝紫渐变、Inter/Roboto、过度圆角、大 blur 阴影
 
@@ -88,7 +107,7 @@ var(--aura-shadow-md)
 
 **主题**：`data-aura-theme="editorial"`（杂志风/大胆排版）、`data-aura-theme="monochrome"`（极简单色）、`data-aura-theme="dark"`、`data-aura-theme="sharp"`
 
-## 七、设计配方（供 AI 生成有设计感的页面）
+## 八、设计配方（供 AI 生成有设计感的页面）
 
 参考 Awwwards 2024-2025 获奖网站及反 AI 味设计趋势，遵循以下模式可生成有辨识度的页面：
 
@@ -119,7 +138,7 @@ var(--aura-shadow-md)
 - **推荐**：流体字号 `var(--aura-display-xl)`、网格布局、留白充足
 - **参考示例**：`examples/demo-editorial.html`
 
-## 八、AI 风格推荐（根据项目自动选风格写样式）
+## 九、AI 风格推荐（根据项目自动选风格写样式）
 
 **使用方式**：当用户描述项目或页面类型时，根据下表自动选择主题与组件组合，并生成对应样式。
 
@@ -140,13 +159,13 @@ var(--aura-shadow-md)
 
 **若用户未指定类型**：默认使用 `aura-app`（大地色主题）与基础组件。
 
-## 九、常见错误（帮用户避开这些坑）
+## 十、常见错误（帮用户避开这些坑）
 
 1. `@click="count++"` 已支持 ✅，简单增减可以直接写；复杂逻辑还是用函数名更清晰
 2. 路径 `../src/` ❌ → 用 `/src/` ✅，不然 examples 加载会失败
 3. 直接双击 HTML 打不开 examples ❌ → 需要 `npm run serve` 或本地服务 ✅
 
-## 十、文案建议（生成更人性化的页面）
+## 十一、文案建议（生成更人性化的页面）
 
 帮你生成的页面不仅好看，也更像人写的：
 
@@ -155,7 +174,7 @@ var(--aura-shadow-md)
 - **按钮**：用动词或动作感强的词（「开始」「保存」「试试看」），少用「点击这里」「提交」
 - **空状态**：别冷冰冰的「暂无数据」，可以写「这里还没什么」「加一条试试？」
 
-## 十一、示例文件
+## 十二、示例文件
 
 - `examples/index.html` - 基础
 - `examples/demo-full.html` - 完整
@@ -163,3 +182,4 @@ var(--aura-shadow-md)
 - `examples/demo-timer.html` - 计时器
 - `examples/demo-editorial.html` - 杂志风 / 大胆排版
 - `examples/demo-v-if-else.html` - v-if / v-else-if / v-else
+- `examples/demo-multi-component.html` - 多组件（props、slot）
