@@ -1,5 +1,7 @@
 # Aura 新手指南
 
+欢迎试试 Aura。下面几步就能跑起来。
+
 ## 第一步：获取文件
 
 **方式 A**（推荐）— 直接下载：
@@ -31,7 +33,7 @@ npm start
 
 ## 第四步：加一个按钮
 
-在 template 里加一行：
+在 template 里随手加一行：
 ```html
 <button class="aura-btn" @click="count++">+1</button>
 ```
@@ -39,6 +41,6 @@ npm start
 
 ## 遇到问题？
 
-- 空白页：确认用 `npm start` 或本地服务，不要直接双击 HTML（examples 需要）
-- 脚本加载失败：starter.html 用 CDN，需联网
-- mount 失败：检查 `#app` 元素是否存在
+- **空白页**：examples 需要本地服务，试试 `npm start`，别直接双击 HTML
+- **脚本加载失败**：starter 用 CDN，要联网；examples 用 `/src/` 路径，需要先起服务
+- **mount 失败**：看看页面上有没有 `id="app"` 的容器，可能是选择器写错了

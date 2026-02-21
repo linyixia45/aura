@@ -386,7 +386,7 @@ function createApp(options) {
   return {
     mount(selector) {
       const el = typeof selector === 'string' ? document.querySelector(selector) : selector;
-      if (!el) throw new Error('[Aura] mount 失败：未找到 "' + selector + '"，请检查该元素是否存在。参考：https://github.com/linyixia45/aura#readme');
+      if (!el) throw new Error('[Aura] 找不到挂载点 "' + selector + '"。可能是选择器写错了，或者页面还没加载好？检查一下 DOM 里是否有这个元素，或者看看 README：https://github.com/linyixia45/aura#readme');
       const mountQueue = [];
       const queues = { mount: [], unmount: [] };
       const api = createLifecycle(queues);

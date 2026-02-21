@@ -28,7 +28,7 @@
   <script src="/src/aura.js"></script>
   <script>
     if (typeof window.Aura === 'undefined') {
-      document.getElementById('app').innerHTML = '<p style="padding:2rem;color:red;">脚本加载失败，请确保使用 npm run serve 启动后访问 /examples/demo-landing.html</p>';
+      document.getElementById('app').innerHTML = '<div style="padding:2rem;max-width:480px;margin:0 auto;"><p style="color:var(--aura-muted);">脚本没加载好。examples 需要本地服务，试试 <code>npm start</code> 或 <code>npx serve .</code>，再访问本页。</p><p><a href="https://github.com/linyixia45/aura" class="aura-link">README</a></p></div>';
     } else {
     const { createApp, ref } = window.Aura;
 

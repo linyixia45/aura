@@ -43,7 +43,7 @@
                 #{{ idx + 1 }} {{ item }}
               </li>
             </ul>
-            <p v-if="laps.length === 0" style="color: var(--aura-muted);">暂无记录</p>
+            <p v-if="laps.length === 0" style="color: var(--aura-muted);">还没开始计时，点「开始」试试</p>
             <button class="aura-btn aura-btn-sm" @click="lap" :disabled="!running" style="margin-top: 0.5rem;">记录当前</button>
           </div>
         </div>
