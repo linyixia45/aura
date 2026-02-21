@@ -85,6 +85,8 @@ Vue 以**渐进式**、**学习曲线平缓**、**文档友好**著称。Aura �
 无 `template` 时，用挂载点 innerHTML 作为模板，适合在现有页面局部增强：
 
 ```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/design-tokens.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/linyixia45/aura@v0.1.0/src/components.css" />
 <div id="app">
   <p>{{ message }}</p>
   <button class="aura-btn" @click="count++">点击 {{ count }}</button>

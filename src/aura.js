@@ -115,6 +115,16 @@ function createLifecycle(queues) {
   };
 }
 
+/** provide/inject 跨组件通信（Vue 风格） */
+function createProvideInject() {
+  const provides = {};
+  return {
+    provide: (key, value) => { provides[key] = value; },
+    inject: (key) => provides[key],
+    _provides: provides,
+  };
+}
+
 // ============ Template Compiler ============
 function getData(ctx) {
   const data = {};
@@ -201,7 +211,8 @@ function processComponents(html, data, ctx, components, opts = {}) {
     }
     const props = parseProps(attrStr, data);
     const api = createLifecycle({ mount: [], unmount: [] });
-    const setupResult = typeof comp.setup === 'function' ? comp.setup({ ...api, props }) : {};
+    const inject = opts.inject || (() => undefined);
+    const setupResult = typeof comp.setup === 'function' ? comp.setup({ ...api, props, inject }) : {};
     const childCtx = { ...ctx, ...props, ...setupResult };
     componentCtxs[id] = childCtx;
     let compTpl = comp.template.replace(/<slot\s*\/?>[\s\S]*?<\/slot>|<slot\s*\/\s*>/gi, slotContent);
@@ -214,7 +225,7 @@ function processComponents(html, data, ctx, components, opts = {}) {
     });
     id++;
     const compData = getData(childCtx);
-    const compHtml = processTemplate(compTpl, compData, childCtx, { ...opts, components, __componentId: id, componentCtxs, skipVModel: false });
+    const compHtml = processTemplate(compTpl, compData, childCtx, { ...opts, components, __componentId: id, componentCtxs, inject: opts.inject, skipVModel: false });
     out += `<aura-c data-aura-cid="${id - 1}">` + compHtml + `</aura-c>`;
     lastEnd = end;
     re.lastIndex = end;
@@ -229,14 +240,31 @@ function processVFor(html, data) {
   return html.replace(re, (_, tag, before, itemVar, indexVar, listExpr, after, inner) => {
     const list = evalExpr(listExpr, data);
     if (!Array.isArray(list)) return '';
+    const attrs = before + ' ' + after;
+    const keyMatch = attrs.match(/\s:key="([^"]+)"/);
+    const keyExpr = keyMatch ? keyMatch[1] : null;
+    const stripKey = (s) => s.replace(/\s:key="[^"]+"/, '');
     return list
       .map((item, i) => {
         const scope = { ...data, [itemVar]: item, index: i };
         if (indexVar) scope[indexVar] = i;
         const innerHtml = processTemplate(inner, scope, null, { skipVModel: true });
-        return `<${tag}${before}${after}>${innerHtml}</${tag}>`;
+        const keyAttr = keyExpr ? ` data-key="${escapeHtml(String(evalExpr(keyExpr, scope) ?? i))}"` : '';
+        return `<${tag}${stripKey(before)}${stripKey(after)}${keyAttr}>${innerHtml}</${tag}>`;
       })
       .join('');
+  });
+}
+
+/** v-once：一次性渲染，不再响应更新（Vue/Alpine 风格） */
+function processVOnce(html, data) {
+  return html.replace(/<(\w+)([^>]*)\s+v-once([^>]*)>([\s\S]*?)<\/\1>/g, (_, tag, before, after, inner) => {
+    const scope = { ...data };
+    const innerProcessed = inner.replace(/\{\{\s*(.+?)\s*\}\}/g, (__, expr) => {
+      const v = evalExpr(expr, scope);
+      return v == null ? '' : escapeHtml(String(v));
+    });
+    return `<${tag}${before}${after}>${innerProcessed}</${tag}>`;
   });
 }
 
@@ -390,6 +418,7 @@ function processStyle(html, data) {
 function processTemplate(template, data, ctx = {}, opts = {}) {
   let out = template.replace(/<[\s\S]*?v-pre[\s\S]*?>[\s\S]*?<\/\w+>/gi, (m) => m.replace(/\s+v-pre/g, ''));
   out = processVFor(out, data);
+  out = processVOnce(out, data);
   out = processVIfElse(out, data);
   if (opts.components && Object.keys(opts.components).length) {
     opts.componentCtxs = opts.componentCtxs || {};
@@ -413,12 +442,13 @@ function processTemplate(template, data, ctx = {}, opts = {}) {
 
 function renderTemplate(template, ctx, container, mountQueue = [], opts = {}) {
   injectVModelHandlers(template, ctx);
-  const { components = {} } = opts;
+  const { components = {}, inject } = opts;
   const update = () => {
     const data = getData(ctx);
-    const html = processTemplate(template, data, ctx, { components });
+    const html = processTemplate(template, data, ctx, { components, inject });
     container.innerHTML = html;
     container.setAttribute('data-aura-mounted', '1');
+    assignTemplateRefs(container, ctx);
     bindEvents(container, ctx);
     container.querySelectorAll('[v-cloak]').forEach((el) => el.removeAttribute('v-cloak'));
   };
@@ -426,6 +456,16 @@ function renderTemplate(template, ctx, container, mountQueue = [], opts = {}) {
   effect(update);
   mountQueue.forEach((f) => f());
   return update;
+}
+
+function assignTemplateRefs(container, ctx) {
+  container.querySelectorAll('[ref]').forEach((el) => {
+    const name = el.getAttribute('ref');
+    if (!name || !ctx) return;
+    const r = ctx[name];
+    if (r && typeof r === 'object' && 'value' in r) r.value = el;
+    else ctx[name] = el;
+  });
 }
 
 const KEY_ALIAS = { enter: 'Enter', tab: 'Tab', esc: 'Escape', space: ' ' };
@@ -466,7 +506,13 @@ function bindEvents(container, ctx) {
  * @returns {{ mount: (selector: string|Element) => { el, ctx, unmount } }}
  */
 function createApp(options) {
-  const { template, setup, components = {} } = options;
+  const { template, setup, components = {}, provide: provideOpt } = options;
+  const pi = createProvideInject();
+  if (provideOpt) {
+    const val = typeof provideOpt === 'function' ? provideOpt() : provideOpt;
+    Object.keys(val || {}).forEach((k) => pi.provide(k, val[k]));
+  }
+  const inject = (key) => pi.inject(key);
   return {
     mount(selector) {
       const el = typeof selector === 'string' ? document.querySelector(selector) : selector;
@@ -474,10 +520,10 @@ function createApp(options) {
       const mountQueue = [];
       const queues = { mount: [], unmount: [] };
       const api = createLifecycle(queues);
-      const setupResult = typeof setup === 'function' ? setup(api) : {};
+      const setupResult = typeof setup === 'function' ? setup({ ...api, inject }) : {};
       const ctx = { ...setupResult };
       const tpl = template || el.innerHTML.trim();
-      if (tpl) renderTemplate(tpl, ctx, el, queues.mount, { components });
+      if (tpl) renderTemplate(tpl, ctx, el, queues.mount, { components, inject });
       return {
         el,
         ctx,

@@ -74,6 +74,9 @@
 | 修饰符 | `@click.prevent` `@click.stop` | `.prevent` `.stop` `.self` |
 | 键盘 | `@keydown.enter` | `.enter` `.esc` `.tab` `.space` |
 | 组件 | `<MyComponent />` `<my-component>` | props、slot，PascalCase 或 kebab-case |
+| ref | `ref="inputRef"` | 模板引用，获取 DOM 元素 |
+| v-once | `v-once` | 一次性渲染，不再响应更新 |
+| v-for :key | `:key="item.id"` | 列表项唯一标识 |
 
 ## 五、组件（Vue 风格）
 
@@ -93,10 +96,23 @@ createApp({
 - **props**：`msg="hi"` 或 `:count="n"` 传入
 - **slot**：`<slot></slot>` 占位默认插槽内容
 
+**provide / inject**：跨组件通信（Vue 风格）
+
+```js
+createApp({
+  provide: () => ({ theme: 'dark' }),
+  setup({ inject }) { return { theme: inject('theme') }; },
+}).mount('#app');
+```
+
+**ref 模板引用**：`ref="inputRef"`，setup 返回 `inputRef: ref(null)`，渲染后自动赋值为 DOM 元素
+
+**v-once**：一次性渲染，内容不再响应式更新
+
 ## 六、setup 参数
 
 ```js
-setup({ onMounted, onUnmounted }) {
+setup({ onMounted, onUnmounted, inject }) {
   onMounted(() => { /* DOM 已挂载 */ });
   onUnmounted(() => { /* 清理定时器、事件 */ });
   return { /* 暴露给模板 */ };
@@ -203,3 +219,4 @@ var(--aura-shadow-md)
 - `examples/demo-v-if-else.html` - v-if / v-else-if / v-else
 - `examples/demo-multi-component.html` - 多组件（props、slot）
 - `examples/demo-progressive.html` - 渐进式（无 template，增强现有 HTML）
+- `examples/demo-stitched.html` - 缝合特性（provide/inject、ref、v-once、:key）

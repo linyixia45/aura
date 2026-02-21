@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aura - 缝合特性</title>
+  <link rel="stylesheet" href="/src/design-tokens.css" />
+  <link rel="stylesheet" href="/src/components.css" />
+</head>
+<body class="aura-app">
+  <div id="app" style="max-width: 560px; margin: 0 auto; padding: 2rem;" v-cloak></div>
+  <script src="/src/aura.js"></script>
+  <script>
+    const { createApp, ref, defineComponent } = window.Aura;
+
+    const ChildWithInject = defineComponent({
+      template: `<p style="color: var(--aura-muted);">注入的主题：{{ theme }}</p>`,
+      setup({ props, inject }) {
+        return { theme: inject('theme') || '默认' };
+      },
+    });
+
+    createApp({
+      provide: () => ({ theme: '大地色' }),
+      components: { ChildWithInject },
+      template: `
+        <div>
+          <h1 class="aura-title aura-title-lg">缝合特性</h1>
+          <p style="color: var(--aura-muted); margin-bottom: 1rem;">provide/inject、ref、v-once、v-for :key</p>
+
+          <div class="aura-card" style="margin-bottom: 1rem;">
+            <h3 class="aura-title aura-title-md">provide / inject</h3>
+            <ChildWithInject />
+          </div>
+
+          <div class="aura-card" style="margin-bottom: 1rem;">
+            <h3 class="aura-title aura-title-md">ref 模板引用</h3>
+            <input ref="inputRef" class="aura-input" placeholder="聚焦后点按钮" style="margin-bottom: 0.5rem;" />
+            <button class="aura-btn" @click="focusInput">聚焦输入框</button>
+          </div>
+
+          <div class="aura-card" style="margin-bottom: 1rem;">
+            <h3 class="aura-title aura-title-md">v-once 一次性渲染</h3>
+            <p v-once>这段话只渲染一次：{{ frozen }}</p>
+            <p>这段话会更新：{{ count }}</p>
+            <button class="aura-btn" @click="count++">+1</button>
+          </div>
+
+          <div class="aura-card">
+            <h3 class="aura-title aura-title-md">v-for :key</h3>
+            <ul style="list-style: none; padding: 0;">
+              <li v-for="(item, i) in list" :key="item.id" style="padding: 0.25rem 0;">{{ item.name }}</li>
+            </ul>
+          </div>
+        </div>
+      `,
+      setup() {
+        const count = ref(0);
+        const frozen = ref('初始值');
+        const inputRef = ref(null);
+        const list = ref([{ id: 1, name: 'A' }, { id: 2, name: 'B' }, { id: 3, name: 'C' }]);
+        return {
+          count,
+          frozen,
+          inputRef,
+          list,
+          focusInput: () => { const el = inputRef.value; if (el && el.focus) el.focus(); },
+        };
+      },
+    }).mount('#app');
+  </script>
+</body>
+</html>
